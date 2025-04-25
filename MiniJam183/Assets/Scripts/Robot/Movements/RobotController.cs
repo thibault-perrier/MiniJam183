@@ -34,7 +34,7 @@ public class RobotController : MonoBehaviour
 
         _rb.linearVelocity = new Vector2(_dir.x * _speed, _rb.linearVelocity.y);
 
-        if (CheckObstacle())
+        if (!_needToSwitchDirection && CheckObstacle())
         {
             _needToSwitchDirection = true;
             _waitingForNextFrame = true;
@@ -81,20 +81,15 @@ public class RobotController : MonoBehaviour
 
     public void SwitchDirection()
     {
-        _spriteRenderer.flipX = !_spriteRenderer.flipX;
-        _dir = -_dir;
-
+        _faceRight = !_faceRight;
+        transform.rotation = Quaternion.Euler(0, _faceRight ? 0 : 180, 0);
         _rb.linearVelocity = _dir * _speed;
     }
 
 
     void OnValidate()
     {
-        _dir = _faceRight ? Vector3.right : Vector3.left;
-        if (_spriteRenderer != null)
-        {
-            _spriteRenderer.flipX = !_faceRight;
-        }
+        transform.rotation = Quaternion.Euler(0, _faceRight ? 0 : 180, 0);
     }
 
 }
