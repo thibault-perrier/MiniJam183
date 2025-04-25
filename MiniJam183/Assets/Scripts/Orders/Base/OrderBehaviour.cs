@@ -7,6 +7,14 @@ namespace Orders.Base
     {
         [HideInInspector] public Order order;
 
+        
+        // TODO: CALL WHEN ORDER PLACED IN GAME
+        public void SetOrder(OrderScriptableObject _orderObject)
+        {
+            order = (Order)_orderObject.order.Clone();
+            order.orderBehaviour = this;
+        }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             // TODO: 
@@ -17,7 +25,6 @@ namespace Orders.Base
             //         order.enterCountBeforeActivation -= 1;
             //         return;
             //     }
-            //     order.orderBehaviour = this;
             //     order.OnRobotEntered(robot);
             // }
         }

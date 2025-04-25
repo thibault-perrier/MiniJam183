@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Orders.Base
 {
-    public abstract class Order
+    public abstract class Order : ICloneable
     {
         [Header("Description")]
         public string orderName;
@@ -21,6 +23,11 @@ namespace Orders.Base
             {
                 orderBehaviour.gameObject.SetActive(false);
             }
+        }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
         }
     }
 }

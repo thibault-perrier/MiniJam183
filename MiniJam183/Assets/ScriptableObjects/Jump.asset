@@ -20,8 +20,8 @@ MonoBehaviour:
     - rid: 4112378576854319190
       type: {class: OrderJump, ns: Orders, asm: Assembly-CSharp}
       data:
-        orderName: 
-        orderDescription: 
+        orderName: ee
+        orderDescription: ww
         orderBehaviour: {fileID: 0}
         orderUseCount: 2147483647
         enterCountBeforeActivation: 0

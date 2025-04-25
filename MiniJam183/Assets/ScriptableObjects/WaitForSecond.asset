@@ -20,8 +20,8 @@ MonoBehaviour:
     - rid: 4112378576854319182
       type: {class: OrderWaitForSecond, ns: Orders, asm: Assembly-CSharp}
       data:
-        orderName: 
-        orderDescription: 
+        orderName: what
+        orderDescription: eee
         orderBehaviour: {fileID: 0}
         orderUseCount: 2147483647
         enterCountBeforeActivation: 0
