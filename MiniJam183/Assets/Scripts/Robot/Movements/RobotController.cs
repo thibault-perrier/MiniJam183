@@ -11,7 +11,6 @@ public class RobotController : MonoBehaviour
 
     public bool IsActive { get; private set; }
     public bool IsGrounded { get; private set; }
-    private Vector3 _dir = Vector3.right;
 
     private bool _needToSwitchDirection = false;
     private bool _waitingForNextFrame = false;
@@ -32,8 +31,9 @@ public class RobotController : MonoBehaviour
     {
         if (!IsActive) return;
 
-        _rb.linearVelocity = new Vector2(_dir.x * _speed, _rb.linearVelocity.y);
+        _rb.linearVelocity = new Vector2(transform.right.x * _speed, _rb.linearVelocity.y);
 
+        
         if (!_needToSwitchDirection && CheckObstacle())
         {
             _needToSwitchDirection = true;
@@ -51,21 +51,25 @@ public class RobotController : MonoBehaviour
 
     private bool CheckObstacle()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position + _dir / 2, _dir, 0.1f, _collisionMask);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.right* 0.6f , transform.right, 0.05f, _collisionMask);
         DebugRaycast();
 
-        if (hit.collider != null && hit.collider.gameObject != gameObject)
+        if (hit.collider != null )//&& hit.collider.gameObject != gameObject)
         {
             Debug.Log($"Hit detected: {hit.collider.gameObject.name}");
-            return hit.collider.gameObject != transform.root.gameObject;
+            return hit.collider.gameObject.name != transform.gameObject.name;
         }
 
+        // if (hit.collider != null && hit.collider.gameObject != gameObject)
+        // {
+        //     return true;
+        // }
         return false;
     }
 
     private void DebugRaycast()
     {
-        Debug.DrawRay(transform.position + _dir / 2, _dir * 0.1f, Color.red);
+        Debug.DrawRay(transform.position + transform.right / 2, transform.right * 0.1f, Color.red);
     }
 
     [ContextMenu("Activate Robot")]
@@ -83,7 +87,7 @@ public class RobotController : MonoBehaviour
     {
         _faceRight = !_faceRight;
         transform.rotation = Quaternion.Euler(0, _faceRight ? 0 : 180, 0);
-        _rb.linearVelocity = _dir * _speed;
+        _rb.linearVelocity = transform.right * _speed;
     }
 
 
