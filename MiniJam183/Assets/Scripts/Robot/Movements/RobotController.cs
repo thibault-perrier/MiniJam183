@@ -15,8 +15,6 @@ public class RobotController : MonoBehaviour
     private bool _needToSwitchDirection = false;
     private bool _waitingForNextFrame = false;
 
-
-
     void Awake()
     {
         _rb = GetComponentInChildren<Rigidbody2D>();
@@ -32,7 +30,6 @@ public class RobotController : MonoBehaviour
         if (!IsActive) return;
 
         _rb.linearVelocity = new Vector2(transform.right.x * _speed, _rb.linearVelocity.y);
-
         
         if (!_needToSwitchDirection && CheckObstacle())
         {
@@ -52,26 +49,21 @@ public class RobotController : MonoBehaviour
     private bool CheckObstacle()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.right* 0.6f , transform.right, 0.05f, _collisionMask);
-        DebugRaycast();
+        DebugRaycast(transform.position + transform.right * 0.6f, transform.right, 0.05f);
 
-        if (hit.collider != null )//&& hit.collider.gameObject != gameObject)
+        if (hit.collider != null )
         {
             Debug.Log($"Hit detected: {hit.collider.gameObject.name}");
             return hit.collider.gameObject.name != transform.gameObject.name;
         }
-
-        // if (hit.collider != null && hit.collider.gameObject != gameObject)
-        // {
-        //     return true;
-        // }
+        
         return false;
     }
-
-    private void DebugRaycast()
+#if UNITY_EDITOR
+    private void DebugRaycast(Vector3 origin, Vector3 direction, float distance)
     {
-        Debug.DrawRay(transform.position + transform.right / 2, transform.right * 0.1f, Color.red);
+        Debug.DrawRay(origin, direction * distance, Color.red);
     }
-
     [ContextMenu("Activate Robot")]
     public void Activate()
     {
@@ -83,6 +75,11 @@ public class RobotController : MonoBehaviour
         IsActive = false;
     }
 
+    void OnValidate()
+    {
+        transform.rotation = Quaternion.Euler(0, _faceRight ? 0 : 180, 0);
+    }
+#endif
     public void SwitchDirection()
     {
         _faceRight = !_faceRight;
@@ -91,9 +88,6 @@ public class RobotController : MonoBehaviour
     }
 
 
-    void OnValidate()
-    {
-        transform.rotation = Quaternion.Euler(0, _faceRight ? 0 : 180, 0);
-    }
+  
 
 }
