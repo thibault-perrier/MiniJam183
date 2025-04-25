@@ -13,6 +13,9 @@ public class RobotController : MonoBehaviour
     public bool IsGrounded { get; private set; }
     private Vector3 _dir = Vector3.right;
 
+    private bool _needToSwitchDirection = false;
+    private bool _waitingForNextFrame = false;
+
 
 
     void Awake()
@@ -29,12 +32,21 @@ public class RobotController : MonoBehaviour
     {
         if (!IsActive) return;
 
+        _rb.linearVelocity = new Vector2(_dir.x * _speed, _rb.linearVelocity.y);
+
         if (CheckObstacle())
         {
-            SwitchDirection();
+            _needToSwitchDirection = true;
+            _waitingForNextFrame = true;
         }
 
-        _rb.linearVelocity = new Vector2(_dir.x * _speed, _rb.linearVelocity.y);
+        if (_needToSwitchDirection && !_waitingForNextFrame)
+        {
+            _needToSwitchDirection = false;
+            SwitchDirection();
+        }
+        else
+            _waitingForNextFrame = false;
     }
 
     private bool CheckObstacle()
