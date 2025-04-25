@@ -9,6 +9,8 @@ namespace Orders.Base
         [Header("Description")]
         public string orderName;
         public string orderDescription;
+        public Sprite orderIcon; //when placed
+        public Sprite orderImage; //when in HUD
 
         [Header("Values")]
         [HideInInspector] public OrderBehaviour orderBehaviour;
