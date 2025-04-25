@@ -22,6 +22,8 @@ MonoBehaviour:
       data:
         orderName: ee
         orderDescription: ww
+        orderIcon: {fileID: 0}
+        orderImage: {fileID: 0}
         orderBehaviour: {fileID: 0}
         orderUseCount: 2147483647
         enterCountBeforeActivation: 0
