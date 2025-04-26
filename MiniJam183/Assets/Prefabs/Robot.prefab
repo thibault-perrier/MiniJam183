@@ -211,5 +211,10 @@ MonoBehaviour:
   _collisionMask:
     serializedVersion: 2
     m_Bits: 192
+  _climbableMask:
+    serializedVersion: 2
+    m_Bits: 256
   _speed: 2
   _faceRight: 1
+  IsGrounded: 0
+  IsClimbingUp: 1

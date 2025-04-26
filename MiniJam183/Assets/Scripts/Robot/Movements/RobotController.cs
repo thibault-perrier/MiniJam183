@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class RobotController : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private LayerMask _collisionMask;
+    [SerializeField] private LayerMask _climbableMask;
     [SerializeField] private float _speed = 2.0f;
     [SerializeField] private bool _faceRight = true;
 
@@ -16,6 +18,17 @@ public class RobotController : MonoBehaviour
     private bool _waitingForNextFrame = false;
     
     private bool _canJump = false;
+    
+    public RobotState CurrentRobotState { get; private set; } = RobotState.Walking;
+
+    public bool IsClimbingUp = true;
+
+    public enum RobotState
+    {
+        Idle,
+        Walking, //normal
+        Climbing, //laders / pipe
+    }
 
     void Awake()
     {
@@ -24,22 +37,66 @@ public class RobotController : MonoBehaviour
 
     void Start()
     {
-
+        
     }
 
+    public void SwitchRobotState(RobotState _nextState)
+    {
+        RobotState _previousState = CurrentRobotState;
+        CurrentRobotState = _nextState;
+        switch (_previousState)
+        {
+            case RobotState.Idle:
+                gameObject.tag = "Untagged";
+                break;
+            case RobotState.Walking:
+                break;
+            case RobotState.Climbing:
+                _rb.excludeLayers = 0;
+                break;
+        }
+        
+        switch (_nextState)
+        {
+            case RobotState.Idle:
+                gameObject.tag = "Jumpable";
+                break;
+            case RobotState.Walking:
+                break;
+            case RobotState.Climbing:
+                _rb.excludeLayers = _collisionMask;
+                break;
+        }
+    }
+    
     void Update()
     {
         if (!IsActive) return;
         
         CheckIsGrounded();
 
+        switch (CurrentRobotState)
+        {
+            case RobotState.Idle:
+                break;
+            case RobotState.Walking:
+                WalkingStateUpdate();
+                break;
+            case RobotState.Climbing:
+                ClimbingStateUpdate();
+                break;
+        }
+    }
+
+    private void WalkingStateUpdate()
+    {
         _rb.linearVelocity = new Vector2(transform.right.x * _speed, _rb.linearVelocity.y);
         CanJump();
         if (!_needToSwitchDirection && CheckObstacle())
         {
             if (CanJump() && IsGrounded && _canJump) 
             {
-                 _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0);
+                _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0);
                 _rb.AddForce(Vector2.up * 4.5f, ForceMode2D.Impulse);
                 _canJump = false;
             }
@@ -57,9 +114,33 @@ public class RobotController : MonoBehaviour
         }
         else
             _waitingForNextFrame = false;
-
     }
 
+    private void ClimbingStateUpdate()
+    {
+        _rb.linearVelocity = new Vector2(0, _speed);
+        Debug.Log("climbing");
+        if (!Physics2D.OverlapBox((Vector2)transform.position + _rb.linearVelocity * Time.deltaTime, Vector2.one * 1, 0f, _climbableMask))
+        {
+            SwitchRobotState(RobotState.Walking);
+        }
+    }
+    
+    public bool TryClimb()
+    {
+        if (CurrentRobotState == RobotState.Climbing)
+        {
+            return false;
+        }
+        
+        if (Physics2D.OverlapBox(transform.position, Vector2.one * 1f, 0f, _climbableMask))
+        {
+            SwitchRobotState(RobotState.Climbing);
+            return true;
+        }
+        return false;
+    }
+    
     private bool CheckObstacle()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.right* 0.55f , transform.right, 0.05f, _collisionMask);
