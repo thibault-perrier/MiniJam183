@@ -5,6 +5,7 @@ public class RobotController : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private LayerMask _collisionMask;
+    [SerializeField] private LayerMask _climbingCollisionMask;
     [SerializeField] private LayerMask _climbableMask;
     [SerializeField] private float _speed = 2.0f;
     [SerializeField] private bool _faceRight = true;
@@ -21,7 +22,13 @@ public class RobotController : MonoBehaviour
     
     public RobotState CurrentRobotState { get; private set; } = RobotState.Walking;
 
-    public bool IsClimbingUp = true;
+    #region Climbing var
+
+    private bool _isClimbingUp = true;
+    private bool _wasNotGroundedThisClimb = false;
+    
+
+    #endregion
 
     public enum RobotState
     {
@@ -65,6 +72,10 @@ public class RobotController : MonoBehaviour
                 break;
             case RobotState.Climbing:
                 _rb.excludeLayers = _collisionMask;
+                if (!Physics2D.OverlapBox(transform.position + Vector3.up, Vector2.one, 0, _climbableMask))
+                {
+                    _isClimbingUp = false;
+                }
                 break;
         }
     }
@@ -118,9 +129,24 @@ public class RobotController : MonoBehaviour
 
     private void ClimbingStateUpdate()
     {
-        _rb.linearVelocity = new Vector2(0, _speed);
-        Debug.Log("climbing");
-        if (!Physics2D.OverlapBox((Vector2)transform.position + _rb.linearVelocity * Time.deltaTime, Vector2.one * 1, 0f, _climbableMask))
+        _rb.linearVelocity = new Vector2(0, _isClimbingUp ? _speed : -_speed);
+
+        bool _isClimbingGrounded = CheckIsGrounded(false, LayerMask.GetMask("Robot"));
+        if (!_isClimbingGrounded)
+        {
+            _wasNotGroundedThisClimb = true;
+        }
+        
+        RaycastHit2D _obstacleHit = Physics2D.Raycast(transform.position + transform.up * (_isClimbingUp ? 0.55f : -0.55f), transform.right,
+            0.05f, _climbingCollisionMask);
+        if (_obstacleHit.collider != null)
+        {
+            _isClimbingUp = !_isClimbingUp;
+        }
+        
+        var _result = Physics2D.OverlapBox((Vector2)transform.position + _rb.linearVelocity * Time.deltaTime,
+            Vector2.one * 0.1f, 0f, _climbableMask);
+        if (!_result || (_isClimbingGrounded && _wasNotGroundedThisClimb))
         {
             SwitchRobotState(RobotState.Walking);
         }
@@ -143,18 +169,18 @@ public class RobotController : MonoBehaviour
     
     private bool CheckObstacle()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.right* 0.55f , transform.right, 0.05f, _collisionMask);
+        RaycastHit2D _hit = Physics2D.Raycast(transform.position + transform.right* 0.55f , transform.right, 0.05f, _collisionMask);
         DebugRaycast(transform.position + transform.right * 0.55f, transform.right, 0.05f);
 
-        if (hit.collider != null)
+        if (_hit.collider != null)
         {
             //Debug.Log($"Hit detected: {hit.collider.gameObject.name}");
-            if (hit.collider.gameObject.CompareTag("Jumpable"))
+            if (_hit.collider.gameObject.CompareTag("Jumpable"))
                 _canJump = true;
             else
                 _canJump = false;
             
-            return hit.collider.gameObject.name != transform.gameObject.name;
+            return _hit.collider.gameObject.name != transform.gameObject.name;
         }
 
         return false;
@@ -162,6 +188,11 @@ public class RobotController : MonoBehaviour
 
     public void SwitchDirection()
     {
+        if (CurrentRobotState == RobotState.Climbing)
+        {
+            _isClimbingUp = !_isClimbingUp;
+            return;
+        }
         _faceRight = !_faceRight;
         transform.rotation = Quaternion.Euler(0, _faceRight ? 0 : 180, 0);
        // _rb.linearVelocity = transform.right * _speed;
@@ -179,14 +210,19 @@ public class RobotController : MonoBehaviour
         return true;
     }
     
-    private void CheckIsGrounded()
+    private bool CheckIsGrounded(bool _updateGroundedValue = true, LayerMask _excludeLayer = default)
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position + -transform.up  * 0.6f, Vector2.down, 0.1f,
-            _collisionMask);
+            _collisionMask & ~_excludeLayer);
         
         DebugRaycast(transform.position + -transform.up * 0.6f, Vector2.down, 0.1f);
-        
-        IsGrounded = hit.collider;
+
+        bool _newValue = hit.collider;
+        if (_updateGroundedValue)
+        {
+            IsGrounded = _newValue;
+        }
+        return _newValue;
     }
     
     
