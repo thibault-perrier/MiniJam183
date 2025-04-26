@@ -5,9 +5,13 @@ namespace Orders
 {
     public class OrderWaitForSecond : Order
     {
-        public override void OnRobotEntered(Object _robot)
+        public float waitingTime = 1f;
+        
+        public override void OnRobotEntered(RobotController _robotController)
         {
-            base.OnRobotEntered(_robot);
+            base.OnRobotEntered(_robotController);
+            _robotController.SwitchRobotState(RobotController.RobotState.WaitingForSeconds);
+            _robotController.waitingTime = waitingTime;
         }
     }
 }

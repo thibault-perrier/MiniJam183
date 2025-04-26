@@ -163,7 +163,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.25, y: 0.25}
   m_EdgeRadius: 0
 --- !u!1 &5663348573848236321
 GameObject:
@@ -212,6 +212,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e88cb49defb7441b0c4a664be120f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  robotControllers: []
+  distanceThreshold: 0.2
 --- !u!50 &5644391053532222287
 Rigidbody2D:
   serializedVersion: 5

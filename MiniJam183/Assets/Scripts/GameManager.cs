@@ -6,7 +6,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public static GameManager GMInstance;
+
+    public bool IsInGameMode = false;
 
     public event Action onStartGame;
     public event Action onEndGame;
@@ -18,9 +20,9 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
+        if (GMInstance == null)
         {
-            instance = this;
+            GMInstance = this;
         }
         else
         {
@@ -30,12 +32,12 @@ public class GameManager : MonoBehaviour
         _blackScreenExit.gameObject.SetActive(true);
     }
 
-
     /// <summary>
     /// This method must be called when the "start" button is pressed after placing orders
     /// </summary>
     public void StartGame()
     {
+        IsInGameMode = true;
         onStartGame?.Invoke();
     }
 
@@ -45,6 +47,8 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         DestroyAllRobots();
+        IsInGameMode = false;
+        aliveRobots.Clear();
         onEndGame?.Invoke();
     }
 

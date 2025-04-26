@@ -20,10 +20,11 @@ MonoBehaviour:
     - rid: 4112378576854319182
       type: {class: OrderWaitForSecond, ns: Orders, asm: Assembly-CSharp}
       data:
-        orderName: what
-        orderDescription: eee
+        orderName: Wait1Seconde
+        orderDescription: Stop the robot and wait for 1 seconde
         orderIcon: {fileID: 0}
         orderImage: {fileID: 0}
         orderBehaviour: {fileID: 0}
         orderUseCount: 2147483647
         enterCountBeforeActivation: 0
+        waitingTime: 1

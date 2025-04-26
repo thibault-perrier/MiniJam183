@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Robot
+  - Jumpable
   layers:
   - Default
   - TransparentFX
@@ -14,7 +15,7 @@ TagManager:
   - UI
   - Platform
   - Robot
-  - 
+  - Climbable
   - 
   - 
   - 
