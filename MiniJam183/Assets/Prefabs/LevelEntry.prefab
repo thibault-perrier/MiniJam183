@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8149567549578584228}
+  - component: {fileID: 7277271999000319812}
   m_Layer: 0
   m_Name: LevelEntry
   m_TagString: Untagged
@@ -32,6 +33,22 @@ Transform:
   - {fileID: 3791486103204212018}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7277271999000319812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4204386433689773227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5e868dc1ac8a964fbe06495e7bb133f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 3
+  spawnDelay: 1
+  faceRightOnSpawn: 1
+  robotPrefab: {fileID: 3894395720559628362, guid: 3cfe855f8d1593c4a93b62be4c0b9e76, type: 3}
 --- !u!1 &7841506085287143600
 GameObject:
   m_ObjectHideFlags: 0
