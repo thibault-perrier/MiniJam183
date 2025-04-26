@@ -10,10 +10,12 @@ public class RobotController : MonoBehaviour
     private Rigidbody2D _rb;
 
     public bool IsActive { get; private set; }
-    public bool IsGrounded { get; private set; }
+    public bool IsGrounded; //{ get; private set; }
 
     private bool _needToSwitchDirection = false;
     private bool _waitingForNextFrame = false;
+    
+    private bool _canJump = false;
 
     void Awake()
     {
@@ -28,13 +30,24 @@ public class RobotController : MonoBehaviour
     void Update()
     {
         if (!IsActive) return;
+        
+        CheckIsGrounded();
 
         _rb.linearVelocity = new Vector2(transform.right.x * _speed, _rb.linearVelocity.y);
-
+        CanJump();
         if (!_needToSwitchDirection && CheckObstacle())
         {
-            _needToSwitchDirection = true;
-            _waitingForNextFrame = true;
+            if (CanJump() && IsGrounded && _canJump) 
+            {
+                 _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0);
+                _rb.AddForce(Vector2.up * 4.5f, ForceMode2D.Impulse);
+                _canJump = false;
+            }
+            else if(IsGrounded)
+            {
+                _needToSwitchDirection = true;
+                _waitingForNextFrame = true;
+            }
         }
 
         if (_needToSwitchDirection && !_waitingForNextFrame)
@@ -44,29 +57,62 @@ public class RobotController : MonoBehaviour
         }
         else
             _waitingForNextFrame = false;
+
     }
 
     private bool CheckObstacle()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.right * 0.6f, transform.right, 0.05f, _collisionMask);
-        DebugRaycast(transform.position + transform.right * 0.6f, transform.right, 0.05f);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.right* 0.55f , transform.right, 0.05f, _collisionMask);
+        DebugRaycast(transform.position + transform.right * 0.55f, transform.right, 0.05f);
 
         if (hit.collider != null)
         {
-            Debug.Log($"Hit detected: {hit.collider.gameObject.name}");
+            //Debug.Log($"Hit detected: {hit.collider.gameObject.name}");
+            if (hit.collider.gameObject.CompareTag("Jumpable"))
+                _canJump = true;
+            else
+                _canJump = false;
+            
             return hit.collider.gameObject.name != transform.gameObject.name;
         }
 
         return false;
     }
-#if UNITY_EDITOR
-    private void DebugRaycast(Vector3 origin, Vector3 direction, float distance)
+
+    public void SwitchDirection()
     {
-        Debug.DrawRay(origin, direction * distance, Color.red);
+        _faceRight = !_faceRight;
+        transform.rotation = Quaternion.Euler(0, _faceRight ? 0 : 180, 0);
+       // _rb.linearVelocity = transform.right * _speed;
     }
 
+    private  bool CanJump()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.up, transform.right, 1f,
+            _collisionMask);
+        DebugRaycast(transform.position + transform.up , transform.right, 1f);
+
+        if (hit.collider)
+            return false;
+        
+        return true;
+    }
+    
+    private void CheckIsGrounded()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + -transform.up  * 0.6f, Vector2.down, 0.1f,
+            _collisionMask);
+        
+        DebugRaycast(transform.position + -transform.up * 0.6f, Vector2.down, 0.1f);
+        
+        IsGrounded = hit.collider;
+    }
+    
+    
+#if UNITY_EDITOR
     [ContextMenu("Activate Robot")]
-    public void ActivateRobot()
+#endif
+    public void Activate()
     {
         IsActive = true;
     }
@@ -75,20 +121,17 @@ public class RobotController : MonoBehaviour
     {
         IsActive = false;
     }
-
+    
+    
+#if UNITY_EDITOR
+    private void DebugRaycast(Vector3 origin, Vector3 direction, float distance)
+    {
+        Debug.DrawRay(origin, direction * distance, Color.red);
+    }
     void OnValidate()
     {
         transform.rotation = Quaternion.Euler(0, _faceRight ? 0 : 180, 0);
     }
 #endif
-    public void SwitchDirection()
-    {
-        _faceRight = !_faceRight;
-        transform.rotation = Quaternion.Euler(0, _faceRight ? 0 : 180, 0);
-        _rb.linearVelocity = transform.right * _speed;
-    }
-
-
-
-
+    
 }
