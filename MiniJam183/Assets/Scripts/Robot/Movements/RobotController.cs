@@ -66,12 +66,12 @@ public class RobotController : MonoBehaviour
     public void SetLinearVelocity(Vector2 _newLinearVelocity, bool _forceSetX, bool _forceSetY)
     {
         if (_forceSetX || Math.Sign(_rb.linearVelocity.x) != Math.Sign(_newLinearVelocity.x) ||
-            _newLinearVelocity.x > _rb.linearVelocityX)
+            Mathf.Abs(_newLinearVelocity.x) > Mathf.Abs(_rb.linearVelocityX))
         {
             _rb.linearVelocityX = _newLinearVelocity.x;
         }
         if (_forceSetY || Math.Sign(_rb.linearVelocity.y) != Math.Sign(_newLinearVelocity.y) ||
-            _newLinearVelocity.y > _rb.linearVelocityY)
+            Mathf.Abs(_newLinearVelocity.y) > Mathf.Abs(_rb.linearVelocityY))
         {
             _rb.linearVelocityY = _newLinearVelocity.y;
         }
@@ -163,7 +163,7 @@ public class RobotController : MonoBehaviour
         
         if (!_needToSwitchDirection && CheckObstacle())
         {
-            if (HasNoObstacleOnHead() && TryJump())
+            if (CheckIfObstacleIsJumpable() && HasNoObstacleOnHead() && TryJump())
             {
                 
             }
@@ -266,6 +266,20 @@ public class RobotController : MonoBehaviour
                 _canJump = false;
             
             return _hit.collider.gameObject.name != transform.gameObject.name;
+        }
+
+        return false;
+    }
+
+    public bool CheckIfObstacleIsJumpable()
+    {
+        RaycastHit2D _hit = Physics2D.Raycast(transform.position + transform.right* 0.55f , transform.right, 0.05f, _collisionMask);
+
+        if (_hit.collider != null)
+        {
+            //Debug.Log($"Hit detected: {hit.collider.gameObject.name}");
+            if (_hit.collider.gameObject.CompareTag("Jumpable"))
+                return true;
         }
 
         return false;
