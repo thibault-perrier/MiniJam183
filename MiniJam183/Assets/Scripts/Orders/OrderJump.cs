@@ -11,10 +11,11 @@ namespace Orders
         public override void OnRobotEntered(RobotController _robotController)
         {
             base.OnRobotEntered(_robotController);
-            _robotController.TryJump();
-            _robotController.GetComponent<Rigidbody2D>().AddForce(_robotController.transform.right * speedBoost, ForceMode2D.Impulse);
-            orderBehaviour.StartCoroutine(WaitForGroundedToRemoveBoost(_robotController));
-
+            if (_robotController.TryJump())
+            {
+                _robotController.GetComponent<Rigidbody2D>().AddForce(_robotController.transform.right * speedBoost, ForceMode2D.Impulse);
+                orderBehaviour.StartCoroutine(WaitForGroundedToRemoveBoost(_robotController));
+            }
         }
 
         private IEnumerator WaitForGroundedToRemoveBoost(RobotController _robotController)
