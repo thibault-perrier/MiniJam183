@@ -15,12 +15,10 @@ public class RobotController : MonoBehaviour
     [SerializeField] private bool _faceRight = true;
 
     private Rigidbody2D _rb;
+    private Animator _animator;
 
     public bool IsActive { get; private set; }
     public bool IsGrounded; //{ get; private set; }
-
-    private bool _needToSwitchDirection = false;
-    private bool _waitingForNextFrame = false;
     
     private bool _canJump = false;
     
@@ -51,6 +49,7 @@ public class RobotController : MonoBehaviour
     void Awake()
     {
         _rb = GetComponentInChildren<Rigidbody2D>();
+        _animator = GetComponentInChildren<Animator>();
     }
 
     void Start()
@@ -134,12 +133,24 @@ public class RobotController : MonoBehaviour
             case RobotState.Idle:
                 break;
             case RobotState.Walking:
+                if (!_animator.GetCurrentAnimatorStateInfo(0).IsName(IsGrounded ? "Walk" : "Jump"))
+                {
+                    _animator.Play(IsGrounded ? "Walk" : "Jump");
+                }
                 WalkingStateUpdate();
                 break;
             case RobotState.Climbing:
+                if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
+                {
+                    _animator.Play("Walk");
+                }
                 ClimbingStateUpdate();
                 break;
             case RobotState.WaitingForSeconds:
+                if (!_animator.GetCurrentAnimatorStateInfo(0).IsName(IsGrounded ? "Idle" : "Jump"))
+                {
+                    _animator.Play(IsGrounded ? "Idle" : "Jump");
+                }
                 WaitingForSecondsStateUpdate();
                 break;
             default:
@@ -160,28 +171,28 @@ public class RobotController : MonoBehaviour
     private void WalkingStateUpdate()
     {
         SetLinearVelocity(new Vector2(transform.right.x * _speed, _rb.linearVelocity.y), false);
-        
-        if (!_needToSwitchDirection && CheckObstacle())
+
+        var _obstacleResult = CheckObstacle();
+        if (_obstacleResult)
         {
-            if (CheckIfObstacleIsJumpable() && HasNoObstacleOnHead() && TryJump())
+            if (_obstacleResult.collider.gameObject.CompareTag("Jumpable") && HasNoObstacleOnHead() && TryJump())
             {
                 
             }
             else if(IsGrounded)
             {
-                _needToSwitchDirection = true;
-                _waitingForNextFrame = true;
+                SwitchDirection();
+                RaycastHit2D _otherRobot = GetObstacles().FirstOrDefault(_checkHit => _checkHit.collider.GetComponentInParent<RobotController>());
+                if (_otherRobot)
+                {
+                    var _otherRobotController = _otherRobot.collider.GetComponentInParent<RobotController>();
+                    if (_faceRight != _otherRobotController._faceRight)
+                    {
+                        _otherRobotController.SwitchDirection();
+                    }
+                    
+                }
             }
-        }
-
-        if (_needToSwitchDirection && !_waitingForNextFrame)
-        {
-            _needToSwitchDirection = false;
-            SwitchDirection();
-        }
-        else
-        {
-            _waitingForNextFrame = false;
         }
         
         
@@ -252,37 +263,37 @@ public class RobotController : MonoBehaviour
         return false;
     }
     
-    private bool CheckObstacle()
+    private RaycastHit2D CheckObstacle()
     {
-        RaycastHit2D _hit = Physics2D.Raycast(transform.position + transform.right* 0.55f , transform.right, 0.05f, _collisionMask);
-        DebugRaycast(transform.position + transform.right * 0.55f, transform.right, 0.05f, Color.blue);
+        //RaycastHit2D _hit = Physics2D.Raycast(transform.position + transform.right* 0.55f , transform.right, 0.05f, _collisionMask);
+        var _hits = GetObstacles();
 
-        if (_hit.collider != null)
+        RaycastHit2D _hit = _hits.FirstOrDefault(_checkHit => (!_checkHit.collider.attachedRigidbody || _checkHit.collider.attachedRigidbody != _rb));
+        
+        if (_hit.collider)
         {
             //Debug.Log($"Hit detected: {hit.collider.gameObject.name}");
             if (_hit.collider.gameObject.CompareTag("Jumpable"))
                 _canJump = true;
             else
                 _canJump = false;
-            
-            return _hit.collider.gameObject.name != transform.gameObject.name;
+
+            if (_hit.collider.gameObject.name != transform.gameObject.name)
+            {
+                return _hit;
+            }
         }
 
-        return false;
+        return default;
     }
 
-    public bool CheckIfObstacleIsJumpable()
+    private RaycastHit2D[] GetObstacles()
     {
-        RaycastHit2D _hit = Physics2D.Raycast(transform.position + transform.right* 0.55f , transform.right, 0.05f, _collisionMask);
-
-        if (_hit.collider != null)
-        {
-            //Debug.Log($"Hit detected: {hit.collider.gameObject.name}");
-            if (_hit.collider.gameObject.CompareTag("Jumpable"))
-                return true;
-        }
-
-        return false;
+        float _size = 0.9f;
+        RaycastHit2D[] _hits = Physics2D.BoxCastAll(transform.position + transform.right * (1 - _size), Vector2.one * _size,
+            0f, transform.right, 0.05f, _collisionMask);
+        DebugRaycast(transform.position + transform.right * 0.55f, transform.right, 0.05f, Color.blue);
+        return _hits;
     }
 
     public void SwitchDirection()
