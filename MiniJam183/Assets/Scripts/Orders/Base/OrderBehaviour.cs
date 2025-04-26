@@ -14,6 +14,13 @@ namespace Orders.Base
             order.orderBehaviour = this;
         }
         
+        [ContextMenu("Test Add Climb Order")]
+        private void TestAddClimbOrder()
+        {
+            order = new OrderClimb();
+            order.orderBehaviour = this;
+        }
+        
         // TODO: CALL WHEN ORDER PLACED IN GAME
         public void SetOrder(OrderScriptableObject _orderObject)
         {

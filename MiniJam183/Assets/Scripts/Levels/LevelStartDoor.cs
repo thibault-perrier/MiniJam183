@@ -38,7 +38,7 @@ public class LevelStartDoor : MonoBehaviour
         {
             while (true)
             {
-                if (Physics2D.OverlapBox(transform.position, new Vector2(0.6f, 0.6f), 0f, LayerMask.GetMask("Robot")) == null)
+                if (Physics2D.OverlapBox(transform.position, Vector2.one, 0f, LayerMask.GetMask("Robot")) == null)
                 {
                     break;
                 }

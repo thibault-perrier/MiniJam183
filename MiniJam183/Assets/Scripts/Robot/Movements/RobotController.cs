@@ -1,10 +1,14 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class RobotController : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private LayerMask _collisionMask;
+    [SerializeField] private LayerMask _climbingCollisionMask;
+    [SerializeField] private LayerMask _climbableMask;
     [SerializeField] private float _speed = 2.0f;
+    [SerializeField] private float _jumpForce = 5.0f;
     [SerializeField] private bool _faceRight = true;
 
     private Rigidbody2D _rb;
@@ -16,6 +20,22 @@ public class RobotController : MonoBehaviour
     private bool _waitingForNextFrame = false;
     
     private bool _canJump = false;
+    
+    public RobotState CurrentRobotState { get; private set; } = RobotState.Walking;
+
+    #region Climbing var
+
+    private bool _isClimbingUp = true;
+    private bool _wasNotGroundedThisClimb = false;
+
+    #endregion
+
+    public enum RobotState
+    {
+        Idle,
+        Walking, //normal
+        Climbing, //laders / pipe
+    }
 
     void Awake()
     {
@@ -24,24 +44,78 @@ public class RobotController : MonoBehaviour
 
     void Start()
     {
-
+        
     }
 
+    public void SwitchRobotState(RobotState _nextState)
+    {
+        RobotState _previousState = CurrentRobotState;
+        CurrentRobotState = _nextState;
+        switch (_previousState)
+        {
+            case RobotState.Idle:
+                gameObject.tag = "Untagged";
+                break;
+            case RobotState.Walking:
+                break;
+            case RobotState.Climbing:
+                _rb.excludeLayers = 0;
+                break;
+        }
+        
+        switch (_nextState)
+        {
+            case RobotState.Idle:
+                gameObject.tag = "Jumpable";
+                break;
+            case RobotState.Walking:
+                break;
+            case RobotState.Climbing:
+                _rb.excludeLayers = _collisionMask;
+                _wasNotGroundedThisClimb = false;
+                if (!Physics2D.OverlapBox(transform.position + Vector3.up, Vector2.one, 0, _climbableMask))
+                {
+                    _isClimbingUp = false;
+                }
+                else
+                {
+                    _isClimbingUp = true;
+                }
+                break;
+        }
+    }
+    
     void Update()
     {
         if (!IsActive) return;
         
         CheckIsGrounded();
 
+        switch (CurrentRobotState)
+        {
+            case RobotState.Idle:
+                break;
+            case RobotState.Walking:
+                WalkingStateUpdate();
+                break;
+            case RobotState.Climbing:
+                ClimbingStateUpdate();
+                break;
+        }
+    }
+
+    private void WalkingStateUpdate()
+    {
         _rb.linearVelocity = new Vector2(transform.right.x * _speed, _rb.linearVelocity.y);
+        
+        
+        
         CanJump();
         if (!_needToSwitchDirection && CheckObstacle())
         {
-            if (CanJump() && IsGrounded && _canJump) 
+            if (CanJump() && IsGrounded && _canJump)
             {
-                 _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0);
-                _rb.AddForce(Vector2.up * 4.5f, ForceMode2D.Impulse);
-                _canJump = false;
+                Jump();
             }
             else if(IsGrounded)
             {
@@ -56,24 +130,81 @@ public class RobotController : MonoBehaviour
             SwitchDirection();
         }
         else
+        {
             _waitingForNextFrame = false;
-
+        }
+        
+        
     }
 
+    private void Jump()
+    {
+        _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0);
+        _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+        _canJump = false;
+    }
+
+    private void ClimbingStateUpdate()
+    {
+        _rb.linearVelocity = new Vector2(0, _isClimbingUp ? _speed : -_speed);
+
+        bool _isClimbingGrounded = CheckIsGrounded(false, LayerMask.GetMask("Robot"));
+        if (!_isClimbingGrounded)
+        {
+            _wasNotGroundedThisClimb = true;
+        }
+        
+        RaycastHit2D _obstacleHit = Physics2D.Raycast(transform.position + transform.up * (_isClimbingUp ? 0.55f : -0.55f), transform.right,
+            0.05f, _climbingCollisionMask);
+        if (_obstacleHit.collider != null)
+        {
+            var _otherRobotController = _obstacleHit.collider.GetComponentInParent<RobotController>();
+            if (_otherRobotController._isClimbingUp != _isClimbingUp)
+            {
+                _isClimbingUp = !_isClimbingUp;
+                _wasNotGroundedThisClimb = true;
+                _otherRobotController._isClimbingUp = !_otherRobotController._isClimbingUp;
+                _otherRobotController._wasNotGroundedThisClimb = true;
+            }
+        }
+        
+        var _result = Physics2D.OverlapBox((Vector2)transform.position + _rb.linearVelocity * Time.deltaTime,
+            Vector2.one * 0.1f, 0f, _climbableMask);
+        if (!_result || (_isClimbingGrounded && _wasNotGroundedThisClimb))
+        {
+            SwitchRobotState(RobotState.Walking);
+        }
+    }
+    
+    public bool TryClimb()
+    {
+        if (CurrentRobotState == RobotState.Climbing)
+        {
+            return false;
+        }
+        
+        if (Physics2D.OverlapBox(transform.position, Vector2.one * 1f, 0f, _climbableMask))
+        {
+            SwitchRobotState(RobotState.Climbing);
+            return true;
+        }
+        return false;
+    }
+    
     private bool CheckObstacle()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.right* 0.55f , transform.right, 0.05f, _collisionMask);
-        DebugRaycast(transform.position + transform.right * 0.55f, transform.right, 0.05f);
+        RaycastHit2D _hit = Physics2D.Raycast(transform.position + transform.right* 0.55f , transform.right, 0.05f, _collisionMask);
+        DebugRaycast(transform.position + transform.right * 0.55f, transform.right, 0.05f, Color.blue);
 
-        if (hit.collider != null)
+        if (_hit.collider != null)
         {
             //Debug.Log($"Hit detected: {hit.collider.gameObject.name}");
-            if (hit.collider.gameObject.CompareTag("Jumpable"))
+            if (_hit.collider.gameObject.CompareTag("Jumpable"))
                 _canJump = true;
             else
                 _canJump = false;
             
-            return hit.collider.gameObject.name != transform.gameObject.name;
+            return _hit.collider.gameObject.name != transform.gameObject.name;
         }
 
         return false;
@@ -81,6 +212,11 @@ public class RobotController : MonoBehaviour
 
     public void SwitchDirection()
     {
+        if (CurrentRobotState == RobotState.Climbing)
+        {
+            _isClimbingUp = !_isClimbingUp;
+            return;
+        }
         _faceRight = !_faceRight;
         transform.rotation = Quaternion.Euler(0, _faceRight ? 0 : 180, 0);
        // _rb.linearVelocity = transform.right * _speed;
@@ -90,7 +226,7 @@ public class RobotController : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.up, transform.right, 1f,
             _collisionMask);
-        DebugRaycast(transform.position + transform.up , transform.right, 1f);
+        DebugRaycast(transform.position + transform.up , transform.right, 1f, Color.red);
 
         if (hit.collider)
             return false;
@@ -98,14 +234,19 @@ public class RobotController : MonoBehaviour
         return true;
     }
     
-    private void CheckIsGrounded()
+    private bool CheckIsGrounded(bool _updateGroundedValue = true, LayerMask _excludeLayer = default)
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position + -transform.up  * 0.6f, Vector2.down, 0.1f,
-            _collisionMask);
+            _collisionMask & ~_excludeLayer);
         
-        DebugRaycast(transform.position + -transform.up * 0.6f, Vector2.down, 0.1f);
-        
-        IsGrounded = hit.collider;
+        DebugRaycast(transform.position + -transform.up * 0.6f, Vector2.down, 0.1f, Color.red);
+
+        bool _newValue = hit.collider;
+        if (_updateGroundedValue)
+        {
+            IsGrounded = _newValue;
+        }
+        return _newValue;
     }
     
     
@@ -124,9 +265,9 @@ public class RobotController : MonoBehaviour
     
     
 #if UNITY_EDITOR
-    private void DebugRaycast(Vector3 origin, Vector3 direction, float distance)
+    private void DebugRaycast(Vector3 origin, Vector3 direction, float distance, Color color)
     {
-        Debug.DrawRay(origin, direction * distance, Color.red);
+        Debug.DrawRay(origin, direction * distance, color);
     }
     void OnValidate()
     {
