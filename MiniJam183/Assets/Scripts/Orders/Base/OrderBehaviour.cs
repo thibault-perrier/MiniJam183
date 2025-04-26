@@ -7,11 +7,6 @@ namespace Orders.Base
     {
         [HideInInspector] public Order order;
 
-        private void Start()
-        {
-            TestAddClimbOrder();
-        }
-
         [ContextMenu("Test Add Switch Order")]
         private void TestAddSwitchOrder()
         {
