@@ -5,9 +5,9 @@ namespace Orders
 {
     public class OrderWaitForSecond : Order
     {
-        public override void OnRobotEntered(Object _robot)
+        public override void OnRobotEntered(RobotController _robotController)
         {
-            base.OnRobotEntered(_robot);
+            base.OnRobotEntered(_robotController);
         }
     }
 }

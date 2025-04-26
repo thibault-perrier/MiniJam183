@@ -18,7 +18,7 @@ namespace Orders.Base
         [HideInInspector] public int enterCountBeforeActivation = 0;
         
 
-        public virtual void OnRobotEntered(Object _robot)
+        public virtual void OnRobotEntered(RobotController _robotController)
         {
             orderUseCount -= 1;
             if (orderUseCount <= 0)
