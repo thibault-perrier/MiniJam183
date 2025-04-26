@@ -11,6 +11,7 @@ public class PlacementManager : MonoBehaviour
     private OrderBehaviour _orderBehaviour;
     private SpriteRenderer _orderImage;
     private bool _canBePlaced = true;
+    private bool _wasOnOrderButton = false;
 
     [Tooltip("Mask for the layers that can be overlapped by the order prefab")]
     [SerializeField] private LayerMask _overlappingLayerMask;
@@ -20,8 +21,24 @@ public class PlacementManager : MonoBehaviour
         Instance = this;
     }
 
+    private void ReleaseCurrentOrder()
+    {
+        if (_orderBehaviour != null)
+        {
+            Destroy(_orderBehaviour.gameObject);
+            _orderBehaviour = null;
+            _orderImage = null;
+            _canBePlaced = false;
+        }
+    }
+
     private void Update()
     {
+        if (!_wasOnOrderButton && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            ReleaseCurrentOrder();
+        else if (_wasOnOrderButton && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            _wasOnOrderButton = false;
+
         if (GameManager.GMInstance.IsInGameMode)
             return;
 
@@ -29,10 +46,7 @@ public class PlacementManager : MonoBehaviour
         {
             if (_orderBehaviour != null)
             {
-                Destroy(_orderBehaviour.gameObject);
-                _orderBehaviour = null;
-                _orderImage = null;
-                _canBePlaced = false;
+                ReleaseCurrentOrder();
                 return;
             }
 
@@ -93,6 +107,7 @@ public class PlacementManager : MonoBehaviour
         {
             _orderBehaviour.SetOrder(orderSO);
             _orderImage = _orderBehaviour.GetComponentInChildren<SpriteRenderer>();
+            _wasOnOrderButton = true;
         }
     }
 }
