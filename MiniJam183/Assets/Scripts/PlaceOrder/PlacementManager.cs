@@ -1,14 +1,16 @@
 using Orders;
 using Orders.Base;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class PlacementManager : MonoBehaviour
 {
     public static PlacementManager Instance;
 
-    private GameObject _orderPrefabToPlace;
-    private OrderScriptableObject _currentOrderSO;
+    private OrderBehaviour _orderBehaviour;
+    private SpriteRenderer _orderImage;
+
+    [Tooltip("Mask for the layers that can be overlapped by the order prefab")]
+    [SerializeField] private LayerMask _overlappingLayerMask;
 
     private void Awake()
     {
@@ -17,29 +19,40 @@ public class PlacementManager : MonoBehaviour
 
     private void Update()
     {
-        if (_orderPrefabToPlace != null)
-            Debug.Log(_orderPrefabToPlace.name);
-        
-        if (_orderPrefabToPlace !=null && Input.GetMouseButtonDown(0))
+        if (_orderBehaviour == null)
+            return;
+
+        UpdatePreview();
+
+        if (Input.GetMouseButtonDown(0))
         {
-
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            GameObject placedOrder = Instantiate(_orderPrefabToPlace, mousePos, Quaternion.identity);
-            OrderBehaviour orderBehaviour = placedOrder.GetComponent<OrderBehaviour>();
-            if (orderBehaviour != null)
+            if (_orderBehaviour.CanBePlaced)
             {
-                orderBehaviour.SetOrder(_currentOrderSO);
+                _orderBehaviour = null;
+                _orderImage = null;
             }
-
-            _orderPrefabToPlace = null;
-            _currentOrderSO = null;
+            else
+                Debug.Log("Cannot place order here, please try again.");
         }
     }
 
+    private void UpdatePreview()
+    {
+        _orderImage.color = _orderBehaviour.CanBePlaced ? Color.white : Color.red;
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _orderBehaviour.transform.position = new Vector2(Mathf.FloorToInt(mousePos.x) + 0.5f, Mathf.FloorToInt(mousePos.y) + 0.5f);
+    }
+
+
     public void StartPlacingOrder(GameObject prefab, OrderScriptableObject orderSO)
     {
-        _orderPrefabToPlace = prefab;
-        _currentOrderSO = orderSO;
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _orderBehaviour = Instantiate(prefab, new Vector2(Mathf.FloorToInt(mousePos.x) + 0.5f, Mathf.FloorToInt(mousePos.y) + 0.5f), Quaternion.identity).GetComponent<OrderBehaviour>();
+
+        if (_orderBehaviour != null)
+        {
+            _orderBehaviour.SetOrder(orderSO);
+            _orderImage = _orderBehaviour.GetComponentInChildren<SpriteRenderer>();
+        }
     }
 }

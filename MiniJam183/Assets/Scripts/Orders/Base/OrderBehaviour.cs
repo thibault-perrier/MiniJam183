@@ -6,6 +6,7 @@ namespace Orders.Base
     public class OrderBehaviour : MonoBehaviour
     {
         [HideInInspector] public Order order;
+        [HideInInspector] public bool CanBePlaced = true;
 
         private void Start()
         {
@@ -20,14 +21,14 @@ namespace Orders.Base
             order = new OrderSwitchDirection();
             order.orderBehaviour = this;
         }
-        
+
         [ContextMenu("Test Add Climb Order")]
         private void TestAddClimbOrder()
         {
             order = new OrderClimb();
             order.orderBehaviour = this;
         }
-        
+
         // TODO: CALL WHEN ORDER PLACED IN GAME
         public void SetOrder(OrderScriptableObject _orderObject)
         {
@@ -37,18 +38,31 @@ namespace Orders.Base
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (!GameManager.GMInstance.IsInGameMode)
+            {
+                CanBePlaced = false;
+            }
+
             RobotController _robotController = other.GetComponentInParent<RobotController>();
             if (!_robotController)
             {
                 return;
             }
-            
+
             if (order.enterCountBeforeActivation > 0)
             {
                 order.enterCountBeforeActivation -= 1;
                 return;
             }
             order.OnRobotEntered(_robotController);
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (!GameManager.GMInstance.IsInGameMode)
+            {
+                CanBePlaced = false;
+            }
         }
     }
 }
