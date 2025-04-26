@@ -7,15 +7,15 @@ public class LevelStartDoor : MonoBehaviour
     public int spawnCount = 3;
     public float spawnDelay = 1f;
     public bool faceRightOnSpawn = true;
-    
+
     public GameObject robotPrefab;
-    
+
     private Coroutine spawningCoroutine;
 
     private void Start()
     {
-        GameManager.instance.onStartGame += StartSpawning;
-        GameManager.instance.onEndGame += StopSpawning;
+        GameManager.GMInstance.onStartGame += StartSpawning;
+        GameManager.GMInstance.onEndGame += StopSpawning;
     }
 
     [ContextMenu("Spawn")]
@@ -58,7 +58,7 @@ public class LevelStartDoor : MonoBehaviour
         {
             _robotController.SwitchDirection();
         }
-        
-        GameManager.instance.aliveRobots.Add(_robotController);
+
+        GameManager.GMInstance.aliveRobots.Add(_robotController);
     }
 }

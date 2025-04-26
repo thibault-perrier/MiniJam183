@@ -18,8 +18,8 @@ namespace Orders.Base
         private void Start()
         {
             //TEST
-            order = new OrderJump();
-            order.orderBehaviour = this;
+            // order = new OrderJump();
+            // order.orderBehaviour = this;
         }
 
         [ContextMenu("Test Add Switch Order")]
@@ -28,14 +28,14 @@ namespace Orders.Base
             order = new OrderSwitchDirection();
             order.orderBehaviour = this;
         }
-        
+
         [ContextMenu("Test Add Climb Order")]
         private void TestAddClimbOrder()
         {
             order = new OrderClimb();
             order.orderBehaviour = this;
         }
-        
+
         // TODO: CALL WHEN ORDER PLACED IN GAME
         public void SetOrder(OrderScriptableObject _orderObject)
         {
