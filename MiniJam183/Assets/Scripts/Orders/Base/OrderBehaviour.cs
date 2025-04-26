@@ -10,8 +10,8 @@ namespace Orders.Base
         private void Start()
         {
             //TEST
-            order = new OrderJump();
-            order.orderBehaviour = this;
+            // order = new OrderJump();
+            // order.orderBehaviour = this;
         }
 
         [ContextMenu("Test Add Switch Order")]

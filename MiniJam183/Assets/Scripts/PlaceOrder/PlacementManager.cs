@@ -17,11 +17,14 @@ public class PlacementManager : MonoBehaviour
 
     private void Update()
     {
+        if (_orderPrefabToPlace != null)
+            Debug.Log(_orderPrefabToPlace.name);
+        
         if (_orderPrefabToPlace !=null && Input.GetMouseButtonDown(0))
         {
             // Ignore if clicking on UI
-            if (EventSystem.current.IsPointerOverGameObject())
-                return;
+            // if (EventSystem.current.IsPointerOverGameObject())
+            //     return;
 
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 

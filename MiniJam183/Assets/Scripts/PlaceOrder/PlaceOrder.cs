@@ -6,7 +6,7 @@ public class PlaceOrder : MonoBehaviour
     public GameObject _orderPrefab;
     public OrderScriptableObject _orderSO;
 
-    public void OnButtonClick()
+    public void OnPlace()
     {
         PlacementManager.Instance.StartPlacingOrder(_orderPrefab, _orderSO);
     }
