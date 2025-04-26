@@ -7,6 +7,12 @@ namespace Orders.Base
     {
         [HideInInspector] public Order order;
 
+        [ContextMenu("Test Add Switch Order")]
+        private void TestAddSwitchOrder()
+        {
+            order = new OrderSwitchDirection();
+            order.orderBehaviour = this;
+        }
         
         // TODO: CALL WHEN ORDER PLACED IN GAME
         public void SetOrder(OrderScriptableObject _orderObject)
@@ -17,16 +23,18 @@ namespace Orders.Base
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            // TODO: 
-            // if (other.TryGetComponent<Robot>(out var robot))
-            // {
-            //     if (order.enterCountBeforeActivation > 0)
-            //     {
-            //         order.enterCountBeforeActivation -= 1;
-            //         return;
-            //     }
-            //     order.OnRobotEntered(robot);
-            // }
+            RobotController _robotController = other.GetComponentInParent<RobotController>();
+            if (!_robotController)
+            {
+                return;
+            }
+            
+            if (order.enterCountBeforeActivation > 0)
+            {
+                order.enterCountBeforeActivation -= 1;
+                return;
+            }
+            order.OnRobotEntered(_robotController);
         }
     }
 }
