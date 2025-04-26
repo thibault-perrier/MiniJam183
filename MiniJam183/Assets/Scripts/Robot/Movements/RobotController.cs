@@ -169,10 +169,8 @@ public class RobotController : MonoBehaviour
 
     public bool TryJump()
     {
-        Debug.Log("try jump");
         if (IsGrounded)
         {
-            Debug.Log("jump");
             Jump();
             return true;
         }
