@@ -24,6 +24,6 @@ public class FastForwardButton : MonoBehaviour
         _ffButton.GetComponentInChildren<TextMeshProUGUI>().text = _ffButtonTexts[_currentIndex];
         Time.timeScale = _ffSpeeds[_currentIndex];
 
-        Debug.Log("Time Scale: " + Time.timeScale);
+        //Debug.Log("Time Scale: " + Time.timeScale);
     }
 }
