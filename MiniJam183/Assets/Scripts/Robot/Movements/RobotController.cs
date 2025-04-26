@@ -112,7 +112,7 @@ public class RobotController : MonoBehaviour
 #if UNITY_EDITOR
     [ContextMenu("Activate Robot")]
 #endif
-    public void Activate()
+    public void ActivateRobot()
     {
         IsActive = true;
     }
