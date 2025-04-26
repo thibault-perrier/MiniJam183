@@ -8,6 +8,7 @@ namespace Orders
         public override void OnRobotEntered(RobotController _robotController)
         {
             base.OnRobotEntered(_robotController);
+            _robotController.TryJump();
         }
     }
 }

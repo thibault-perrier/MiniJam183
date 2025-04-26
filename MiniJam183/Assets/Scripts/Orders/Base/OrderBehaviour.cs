@@ -7,6 +7,13 @@ namespace Orders.Base
     {
         [HideInInspector] public Order order;
 
+        private void Start()
+        {
+            //TEST
+            order = new OrderJump();
+            order.orderBehaviour = this;
+        }
+
         [ContextMenu("Test Add Switch Order")]
         private void TestAddSwitchOrder()
         {

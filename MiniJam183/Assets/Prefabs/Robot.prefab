@@ -208,6 +208,7 @@ MonoBehaviour:
   _jumpForce: 5
   _faceRight: 1
   IsGrounded: 0
+  waitingTime: 1
 --- !u!1 &5450606540101277352
 GameObject:
   m_ObjectHideFlags: 0

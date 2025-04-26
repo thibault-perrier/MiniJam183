@@ -1,3 +1,5 @@
+using System.Linq;
+using Extensions;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -23,10 +25,17 @@ public class RobotController : MonoBehaviour
     
     public RobotState CurrentRobotState { get; private set; } = RobotState.Walking;
 
-    #region Climbing var
+    #region Climbing state var
 
     private bool _isClimbingUp = true;
     private bool _wasNotGroundedThisClimb = false;
+
+    #endregion
+
+    #region Waiting for seconds state var
+
+    public float waitingTime = 1f;
+    private RobotState waitingPreviousState;
 
     #endregion
 
@@ -35,6 +44,7 @@ public class RobotController : MonoBehaviour
         Idle,
         Walking, //normal
         Climbing, //laders / pipe
+        WaitingForSeconds,
     }
 
     void Awake()
@@ -61,6 +71,8 @@ public class RobotController : MonoBehaviour
             case RobotState.Climbing:
                 _rb.excludeLayers = 0;
                 break;
+            default:
+                break;
         }
         
         switch (_nextState)
@@ -82,10 +94,16 @@ public class RobotController : MonoBehaviour
                     _isClimbingUp = true;
                 }
                 break;
+            case RobotState.WaitingForSeconds:
+                _rb.linearVelocityX = 0;
+                waitingPreviousState = _previousState;
+                break;
+            default:
+                break;
         }
     }
     
-    void Update()
+    void FixedUpdate()
     {
         if (!IsActive) return;
         
@@ -101,6 +119,21 @@ public class RobotController : MonoBehaviour
             case RobotState.Climbing:
                 ClimbingStateUpdate();
                 break;
+            case RobotState.WaitingForSeconds:
+                WaitingForSecondsStateUpdate();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void WaitingForSecondsStateUpdate()
+    {
+        waitingTime -= Time.fixedDeltaTime;
+        if (waitingTime <= 0)
+        {
+            SwitchRobotState(waitingPreviousState);
+            waitingTime = 1f;
         }
     }
 
@@ -108,14 +141,11 @@ public class RobotController : MonoBehaviour
     {
         _rb.linearVelocity = new Vector2(transform.right.x * _speed, _rb.linearVelocity.y);
         
-        
-        
-        CanJump();
         if (!_needToSwitchDirection && CheckObstacle())
         {
-            if (CanJump() && IsGrounded && _canJump)
+            if (HasNoObstacleOnHead() && TryJump())
             {
-                Jump();
+                
             }
             else if(IsGrounded)
             {
@@ -137,6 +167,19 @@ public class RobotController : MonoBehaviour
         
     }
 
+    public bool TryJump()
+    {
+        Debug.Log("try jump");
+        if (IsGrounded)
+        {
+            Debug.Log("jump");
+            Jump();
+            return true;
+        }
+
+        return false;
+    }
+    
     private void Jump()
     {
         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0);
@@ -168,7 +211,7 @@ public class RobotController : MonoBehaviour
             }
         }
         
-        var _result = Physics2D.OverlapBox((Vector2)transform.position + _rb.linearVelocity * Time.deltaTime,
+        var _result = Physics2D.OverlapBox((Vector2)transform.position + _rb.linearVelocity * Time.fixedDeltaTime,
             Vector2.one * 0.1f, 0f, _climbableMask);
         if (!_result || (_isClimbingGrounded && _wasNotGroundedThisClimb))
         {
@@ -222,7 +265,7 @@ public class RobotController : MonoBehaviour
        // _rb.linearVelocity = transform.right * _speed;
     }
 
-    private  bool CanJump()
+    private  bool HasNoObstacleOnHead()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.up, transform.right, 1f,
             _collisionMask);
@@ -236,10 +279,13 @@ public class RobotController : MonoBehaviour
     
     private bool CheckIsGrounded(bool _updateGroundedValue = true, LayerMask _excludeLayer = default)
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position + -transform.up  * 0.6f, Vector2.down, 0.1f,
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position + -transform.up  * 0.5f, Vector2.down, 0.05f,
             _collisionMask & ~_excludeLayer);
         
-        DebugRaycast(transform.position + -transform.up * 0.6f, Vector2.down, 0.1f, Color.red);
+        DebugRaycast(transform.position + -transform.up  * 0.5f, Vector2.down, 0.05f, Color.red);
+        
+        RaycastHit2D hit = hits
+        .FirstOrDefault(hit => (!hit.collider.attachedRigidbody || hit.collider.attachedRigidbody != _rb));
 
         bool _newValue = hit.collider;
         if (_updateGroundedValue)
@@ -276,3 +322,4 @@ public class RobotController : MonoBehaviour
 #endif
     
 }
+
