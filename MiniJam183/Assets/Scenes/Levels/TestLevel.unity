@@ -682,6 +682,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OrderObject
       objectReference: {fileID: 0}
+    - target: {fileID: 5663348573848236321, guid: b29a87deac8d6074db825d7dd7b2936e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7303199713166718525, guid: b29a87deac8d6074db825d7dd7b2936e, type: 3}
       propertyPath: m_Color.a
       value: 0.29803923
@@ -863,6 +867,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OrderObject.1
       objectReference: {fileID: 0}
+    - target: {fileID: 5663348573848236321, guid: b29a87deac8d6074db825d7dd7b2936e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7303199713166718525, guid: b29a87deac8d6074db825d7dd7b2936e, type: 3}
       propertyPath: m_Color.a
       value: 0.29803923
@@ -898,11 +906,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7277271999000319812, guid: 4296935be65bb1d41ae8e043bb33480c, type: 3}
       propertyPath: spawnCount
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7277271999000319812, guid: 4296935be65bb1d41ae8e043bb33480c, type: 3}
       propertyPath: spawnDelay
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7277271999000319812, guid: 4296935be65bb1d41ae8e043bb33480c, type: 3}
       propertyPath: faceRightOnSpawn
@@ -910,11 +918,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8149567549578584228, guid: 4296935be65bb1d41ae8e043bb33480c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.69
+      value: -8.94
       objectReference: {fileID: 0}
     - target: {fileID: 8149567549578584228, guid: 4296935be65bb1d41ae8e043bb33480c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.14
+      value: -0.34
       objectReference: {fileID: 0}
     - target: {fileID: 8149567549578584228, guid: 4296935be65bb1d41ae8e043bb33480c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -974,7 +982,7 @@ GameObject:
   - component: {fileID: 2092731808}
   m_Layer: 6
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Jumpable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
