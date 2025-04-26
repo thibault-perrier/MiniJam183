@@ -212,6 +212,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e88cb49defb7441b0c4a664be120f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  robotControllers: []
+  distanceThreshold: 0.2
 --- !u!50 &5644391053532222287
 Rigidbody2D:
   serializedVersion: 5

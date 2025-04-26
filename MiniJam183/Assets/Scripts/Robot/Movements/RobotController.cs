@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Extensions;
 using UnityEngine;
@@ -57,6 +58,25 @@ public class RobotController : MonoBehaviour
         
     }
 
+    public void SetLinearVelocity(Vector2 _newLinearVelocity, bool _forceSet)
+    {
+        SetLinearVelocity(_newLinearVelocity, _forceSet, _forceSet);
+    }
+    
+    public void SetLinearVelocity(Vector2 _newLinearVelocity, bool _forceSetX, bool _forceSetY)
+    {
+        if (_forceSetX || Math.Sign(_rb.linearVelocity.x) != Math.Sign(_newLinearVelocity.x) ||
+            _newLinearVelocity.x > _rb.linearVelocityX)
+        {
+            _rb.linearVelocityX = _newLinearVelocity.x;
+        }
+        if (_forceSetY || Math.Sign(_rb.linearVelocity.y) != Math.Sign(_newLinearVelocity.y) ||
+            _newLinearVelocity.y > _rb.linearVelocityY)
+        {
+            _rb.linearVelocityY = _newLinearVelocity.y;
+        }
+    }
+
     public void SwitchRobotState(RobotState _nextState)
     {
         RobotState _previousState = CurrentRobotState;
@@ -95,7 +115,7 @@ public class RobotController : MonoBehaviour
                 }
                 break;
             case RobotState.WaitingForSeconds:
-                _rb.linearVelocityX = 0;
+                SetLinearVelocity(new Vector2(0, _rb.linearVelocity.y), true);
                 waitingPreviousState = _previousState;
                 break;
             default:
@@ -139,7 +159,7 @@ public class RobotController : MonoBehaviour
 
     private void WalkingStateUpdate()
     {
-        _rb.linearVelocity = new Vector2(transform.right.x * _speed, _rb.linearVelocity.y);
+        SetLinearVelocity(new Vector2(transform.right.x * _speed, _rb.linearVelocity.y), false);
         
         if (!_needToSwitchDirection && CheckObstacle())
         {
@@ -180,14 +200,14 @@ public class RobotController : MonoBehaviour
     
     private void Jump()
     {
-        _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0);
+        SetLinearVelocity(new Vector2(_rb.linearVelocity.x, 0), true);
         _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
         _canJump = false;
     }
 
     private void ClimbingStateUpdate()
     {
-        _rb.linearVelocity = new Vector2(0, _isClimbingUp ? _speed : -_speed);
+        SetLinearVelocity(new Vector2(0, _isClimbingUp ? _speed : -_speed), true);
 
         bool _isClimbingGrounded = CheckIsGrounded(false, LayerMask.GetMask("Robot"));
         if (!_isClimbingGrounded)
@@ -320,4 +340,3 @@ public class RobotController : MonoBehaviour
 #endif
     
 }
-
