@@ -6,7 +6,6 @@ namespace Orders.Base
     public class OrderBehaviour : MonoBehaviour
     {
         [HideInInspector] public Order order;
-        [HideInInspector] public bool CanBePlaced = true;
 
         private void Start()
         {
@@ -38,11 +37,6 @@ namespace Orders.Base
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!GameManager.GMInstance.IsInGameMode)
-            {
-                CanBePlaced = false;
-            }
-
             RobotController _robotController = other.GetComponentInParent<RobotController>();
             if (!_robotController)
             {
@@ -55,14 +49,6 @@ namespace Orders.Base
                 return;
             }
             order.OnRobotEntered(_robotController);
-        }
-
-        private void OnTriggerExit2D(Collider2D other)
-        {
-            if (!GameManager.GMInstance.IsInGameMode)
-            {
-                CanBePlaced = false;
-            }
         }
     }
 }
