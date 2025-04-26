@@ -27,3 +27,4 @@ MonoBehaviour:
         orderBehaviour: {fileID: 0}
         orderUseCount: 2147483647
         enterCountBeforeActivation: 0
+        speedBoost: 1.5
