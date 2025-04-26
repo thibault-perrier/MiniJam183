@@ -22,7 +22,7 @@ public class RobotController : MonoBehaviour
 
     void Start()
     {
-        IsActive = true;
+
     }
 
     void Update()
@@ -30,7 +30,7 @@ public class RobotController : MonoBehaviour
         if (!IsActive) return;
 
         _rb.linearVelocity = new Vector2(transform.right.x * _speed, _rb.linearVelocity.y);
-        
+
         if (!_needToSwitchDirection && CheckObstacle())
         {
             _needToSwitchDirection = true;
@@ -48,15 +48,15 @@ public class RobotController : MonoBehaviour
 
     private bool CheckObstacle()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.right* 0.6f , transform.right, 0.05f, _collisionMask);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.right * 0.6f, transform.right, 0.05f, _collisionMask);
         DebugRaycast(transform.position + transform.right * 0.6f, transform.right, 0.05f);
 
-        if (hit.collider != null )
+        if (hit.collider != null)
         {
             Debug.Log($"Hit detected: {hit.collider.gameObject.name}");
             return hit.collider.gameObject.name != transform.gameObject.name;
         }
-        
+
         return false;
     }
 #if UNITY_EDITOR
@@ -64,13 +64,14 @@ public class RobotController : MonoBehaviour
     {
         Debug.DrawRay(origin, direction * distance, Color.red);
     }
+
     [ContextMenu("Activate Robot")]
-    public void Activate()
+    public void ActivateRobot()
     {
         IsActive = true;
     }
 
-    public void Deactivate()
+    public void DeactivateRobot()
     {
         IsActive = false;
     }
@@ -88,6 +89,6 @@ public class RobotController : MonoBehaviour
     }
 
 
-  
+
 
 }
