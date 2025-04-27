@@ -258,6 +258,10 @@ public class RobotController : MonoBehaviour
             Vector2.one * 0.1f, 0f, _climbableMask);
         if (!_result || (_isClimbingGrounded && _wasNotGroundedThisClimb))
         {
+            if (_isClimbingUp)
+            {
+                transform.position += transform.up * 1f;
+            }
             SwitchRobotState(RobotState.Walking);
         }
     }
