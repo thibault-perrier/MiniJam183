@@ -21,6 +21,14 @@ public class VictoryDetection : MonoBehaviour
     private void Start()
     {
         _victoryCompletionText.text = $"{_currentRobots}/{RequiredRobots}";
+        GameManager.GMInstance.onEndGame += OnEndGame;
+    }
+
+    private void OnEndGame()
+    {
+        _enteredRobotControllers.Clear();
+        _currentRobots = 0;
+        _victoryCompletionText.text = $"{_currentRobots}/{RequiredRobots}";
     }
 
     private void FixedUpdate()

@@ -1136,6 +1136,7 @@ GameObject:
   - component: {fileID: 6634950282367054269}
   - component: {fileID: 7485244581283568791}
   - component: {fileID: 7446774052173279583}
+  - component: {fileID: 4313948915598735479}
   m_Layer: 5
   m_Name: OrderSystem
   m_TagString: Untagged
@@ -1214,6 +1215,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetRectTransform: {fileID: 3391540137621105351}
+--- !u!114 &4313948915598735479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400706237425880953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa3656b69379df45b88b347415946ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _overlappingLayerMask:
+    serializedVersion: 2
+    m_Bits: 576
 --- !u!1 &6617410583742963136
 GameObject:
   m_ObjectHideFlags: 0
