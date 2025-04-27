@@ -386,7 +386,7 @@ GameObject:
   - component: {fileID: 4692648840860178296}
   - component: {fileID: 402298321535347708}
   - component: {fileID: 1756431988375353525}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Danger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
