@@ -18,6 +18,8 @@ namespace Extensions
                 {
                     return false;
                 }
+                
+                _currentCheck = _currentCheck.transform.parent.gameObject;
             }
         }
     }

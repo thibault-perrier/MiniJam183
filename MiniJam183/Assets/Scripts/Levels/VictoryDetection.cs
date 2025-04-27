@@ -12,14 +12,14 @@ public class VictoryDetection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareFirstTagInParent("Robot"))
+        if (other.TryGetComponentInParent(out RobotController _robotController))
         {
             _currentRobots++;
 
             // TODO: Play door animation (open door, wait for .5s, close door), Destroy robot
             Debug.Log("Robot entered, do enter door animation");
 
-            Destroy(other.gameObject);
+            Destroy(_robotController.gameObject);
 
             if (_currentRobots >= RequiredRobots)
             {
