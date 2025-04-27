@@ -192,7 +192,7 @@ public class RobotController : MonoBehaviour
         var _obstacleResult = CheckObstacle();
         if (_obstacleResult)
         {
-            if (_obstacleResult.collider.gameObject.CompareFirstTagInParent("Jumpable") && HasNoObstacleOnHead() && TryJump())
+            if (_obstacleResult.collider.gameObject.CompareFirstTagInParent("Jumpable") && HasNoObstacleOnHead() && TryJump(_jumpForce - 0.5f))
             {
                 
             }
@@ -215,21 +215,25 @@ public class RobotController : MonoBehaviour
         
     }
 
-    public bool TryJump()
+    public bool TryJump(float _overrideJumpForce = -1)
     {
         if (IsGrounded)
         {
-            Jump();
+            Jump(_overrideJumpForce);
             return true;
         }
 
         return false;
     }
     
-    private void Jump()
+    private void Jump(float _overrideJumpForce = -1)
     {
+        if (Mathf.Approximately(_overrideJumpForce, -1))
+        {
+            _overrideJumpForce = _jumpForce;
+        }
         SetLinearVelocity(new Vector2(_rb.linearVelocity.x, 0), true);
-        _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+        _rb.AddForce(Vector2.up * _overrideJumpForce, ForceMode2D.Impulse);
         AudioPlayer.instance.PlaySfx(AudioEnum.RobotJumpSound);  
         _canJump = false;
     }
