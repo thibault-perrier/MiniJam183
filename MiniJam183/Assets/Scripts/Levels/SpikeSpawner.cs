@@ -16,6 +16,7 @@ public class SpikeSpawner : MonoBehaviour
 
     private void SetupValues()
     {
+        SpawnSpike();
         _currTimer = -_firstSpawnDelay;
         Debug.Log($"Spike Spawner Setup Values: {_currTimer}");
     }
