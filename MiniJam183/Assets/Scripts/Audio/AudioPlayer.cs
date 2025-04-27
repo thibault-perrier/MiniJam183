@@ -35,6 +35,7 @@ public class AudioPlayer : MonoBehaviour
             _audioSource.loop = false;
             _audioSource.outputAudioMixerGroup = audioController.audioMixerSfx;
             _audioSource.Play();
+            Destroy(_audioSource.gameObject, _clip.length + 0.5f);
         }
         else
         {

@@ -65,7 +65,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioController: {fileID: 8235129458004961233}
   audioClips:
-    _serializedList: []
+    _serializedList:
+    - Key: 0
+      Value:
+      - {fileID: 8300000, guid: 8c43cd771fdb39540ad57c02c93ce4f7, type: 3}
+    - Key: 1
+      Value:
+      - {fileID: 8300000, guid: d438ab64bbede5f47a1118feb80edf56, type: 3}
 --- !u!1 &4171797182390939553
 GameObject:
   m_ObjectHideFlags: 0
