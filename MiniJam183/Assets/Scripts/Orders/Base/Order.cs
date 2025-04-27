@@ -27,6 +27,16 @@ namespace Orders.Base
             }
         }
 
+        public virtual bool CanUseOrder(RobotController _robotController)
+        {
+            if (_robotController.CurrentRobotState is RobotController.RobotState.Off or RobotController.RobotState.WaitingForSeconds)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public object Clone()
         {
             return MemberwiseClone();

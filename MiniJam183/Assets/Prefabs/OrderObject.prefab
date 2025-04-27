@@ -213,7 +213,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   robotControllers: []
-  distanceThreshold: 0.2
+  alreadyActivatedRobots: []
+  distanceThreshold: 0.3
 --- !u!50 &5644391053532222287
 Rigidbody2D:
   serializedVersion: 5

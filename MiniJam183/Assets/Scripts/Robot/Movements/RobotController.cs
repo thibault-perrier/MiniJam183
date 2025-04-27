@@ -10,11 +10,11 @@ public class RobotController : MonoBehaviour
     [SerializeField] private LayerMask _collisionMask;
     [SerializeField] private LayerMask _climbingCollisionMask;
     [SerializeField] private LayerMask _climbableMask;
-    [SerializeField] private float _speed = 2.0f;
+    [SerializeField] private float _speed = 2.0f; public float Speed => _speed;
     [SerializeField] private float _jumpForce = 5.0f;
     [SerializeField] private bool _faceRight = true;
 
-    private Rigidbody2D _rb;
+    private Rigidbody2D _rb; public Rigidbody2D Rb => _rb;
     private Animator _animator;
 
     public bool IsActive { get; private set; }
@@ -40,7 +40,7 @@ public class RobotController : MonoBehaviour
 
     public enum RobotState
     {
-        Idle,
+        Off,
         Walking, //normal
         Climbing, //laders / pipe
         WaitingForSeconds,
@@ -88,7 +88,7 @@ public class RobotController : MonoBehaviour
         
         switch (_previousState)
         {
-            case RobotState.Idle:
+            case RobotState.Off:
                 gameObject.tag = "Untagged";
                 break;
             case RobotState.Walking:
@@ -102,7 +102,8 @@ public class RobotController : MonoBehaviour
         
         switch (_nextState)
         {
-            case RobotState.Idle:
+            case RobotState.Off:
+                _animator.Play("TurnedOff");
                 gameObject.tag = "Jumpable";
                 break;
             case RobotState.Walking:
@@ -136,7 +137,7 @@ public class RobotController : MonoBehaviour
 
         switch (CurrentRobotState)
         {
-            case RobotState.Idle:
+            case RobotState.Off:
                 break;
             case RobotState.Walking:
                 if (!_animator.GetCurrentAnimatorStateInfo(0).IsName(IsGrounded ? "Walk" : "Jump"))
@@ -181,7 +182,7 @@ public class RobotController : MonoBehaviour
         var _obstacleResult = CheckObstacle();
         if (_obstacleResult)
         {
-            if (_obstacleResult.collider.gameObject.CompareTag("Jumpable") && HasNoObstacleOnHead() && TryJump())
+            if (_obstacleResult.collider.gameObject.CompareFirstTagInParent("Jumpable") && HasNoObstacleOnHead() && TryJump())
             {
                 
             }
@@ -279,7 +280,7 @@ public class RobotController : MonoBehaviour
         if (_hit.collider)
         {
             //Debug.Log($"Hit detected: {hit.collider.gameObject.name}");
-            if (_hit.collider.gameObject.CompareTag("Jumpable"))
+            if (_hit.collider.gameObject.CompareFirstTagInParent("Jumpable"))
                 _canJump = true;
             else
                 _canJump = false;
@@ -311,7 +312,6 @@ public class RobotController : MonoBehaviour
         }
         _faceRight = !_faceRight;
         transform.rotation = Quaternion.Euler(0, _faceRight ? 0 : 180, 0);
-        Debug.Log("switching");
        // _rb.linearVelocity = transform.right * _speed;
     }
 

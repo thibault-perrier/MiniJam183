@@ -44,4 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3a9a50c1574319b81e5056356c5b7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsInGameMode: 0
+  _victoryText: {fileID: 0}
+  _fadeOutClip: {fileID: 7400000, guid: 0bb7d1e74c56c1a4b82673ee17c3d2ef, type: 2}
+  _timeBeforeFadeOut: 1
+  _blackScreenExit: {fileID: 0}
   aliveRobots: []
