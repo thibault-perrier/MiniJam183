@@ -666,6 +666,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4065962113101874368, guid: 40ea75220b0fc5446b418379f70541df, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4065962113101874368, guid: 40ea75220b0fc5446b418379f70541df, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4065962113101874368, guid: 40ea75220b0fc5446b418379f70541df, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -150
+      objectReference: {fileID: 0}
     - target: {fileID: 5340355927586373066, guid: 40ea75220b0fc5446b418379f70541df, type: 3}
       propertyPath: m_Camera
       value: 
@@ -677,6 +689,10 @@ PrefabInstance:
     - target: {fileID: 6626253511527280907, guid: 40ea75220b0fc5446b418379f70541df, type: 3}
       propertyPath: m_Name
       value: LevelsSelection_Canva
+      objectReference: {fileID: 0}
+    - target: {fileID: 6626253511527280907, guid: 40ea75220b0fc5446b418379f70541df, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1085,10 +1101,30 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 45057397}
+    - target: {fileID: 3181988219300096098, guid: 5143cc64291cb57408de25e9174bd41b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3743510906906266973, guid: 5143cc64291cb57408de25e9174bd41b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3825766528266653153, guid: 5143cc64291cb57408de25e9174bd41b, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1185283499}
+    - target: {fileID: 5983777599527230854, guid: 5143cc64291cb57408de25e9174bd41b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6654591201856428464, guid: 5143cc64291cb57408de25e9174bd41b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7187210395316607553, guid: 5143cc64291cb57408de25e9174bd41b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7677482188873086725, guid: 5143cc64291cb57408de25e9174bd41b, type: 3}
       propertyPath: m_Camera
       value: 
@@ -1096,6 +1132,14 @@ PrefabInstance:
     - target: {fileID: 8683480790401795268, guid: 5143cc64291cb57408de25e9174bd41b, type: 3}
       propertyPath: m_Name
       value: Settings_Canva
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683480790401795268, guid: 5143cc64291cb57408de25e9174bd41b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8910878682962546319, guid: 5143cc64291cb57408de25e9174bd41b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
