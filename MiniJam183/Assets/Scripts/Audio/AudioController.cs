@@ -12,6 +12,8 @@ public class AudioController : MonoBehaviour
     [Header("Audio Sources")]
     [SerializeField] private AudioMixer _audioMixerMaster;
 
+    [field:SerializeField] public AudioMixerGroup audioMixerSfx { get; private set; }
+
 
     void Start()
     {
