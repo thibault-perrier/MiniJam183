@@ -92,9 +92,13 @@ MonoBehaviour:
     instantiationMode: 1
   - dependency: {fileID: 3878377504687024441, guid: bb250c0eeb08df34b80e7af07cdb60ca, type: 3}
     instantiationMode: 1
+  - dependency: {fileID: 8300000, guid: d438ab64bbede5f47a1118feb80edf56, type: 3}
+    instantiationMode: 1
   - dependency: {fileID: 3894395720559628362, guid: 3cfe855f8d1593c4a93b62be4c0b9e76, type: 3}
     instantiationMode: 1
   - dependency: {fileID: 2800000, guid: 802f2c2988b13c34f9066746d03adaaf, type: 3}
+    instantiationMode: 1
+  - dependency: {fileID: 8300000, guid: 8c43cd771fdb39540ad57c02c93ce4f7, type: 3}
     instantiationMode: 1
   - dependency: {fileID: 11400000, guid: f66b7dd9bce22c54fa21878a41212135, type: 2}
     instantiationMode: 1
