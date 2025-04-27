@@ -92,6 +92,7 @@ public class RobotController : MonoBehaviour
             case RobotState.Off:
                 gameObject.tag = "Untagged";
                 _rb.linearDamping = 0f;
+                _rb.mass = 1;
                 break;
             case RobotState.Walking:
                 break;
@@ -112,6 +113,7 @@ public class RobotController : MonoBehaviour
                 gameObject.tag = "Jumpable";
                 SetLinearVelocity(Vector2.zero, true);
                 _rb.linearDamping = 0.4f;
+                _rb.mass = 99999;
                 break;
             case RobotState.Walking:
                 break;
