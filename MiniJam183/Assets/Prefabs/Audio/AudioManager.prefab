@@ -66,6 +66,12 @@ MonoBehaviour:
   audioController: {fileID: 8235129458004961233}
   audioClips:
     _serializedList:
+    - Key: 3
+      Value:
+      - {fileID: 8300000, guid: 220a1ceb2cd7223489ffde85d9350357, type: 3}
+    - Key: 2
+      Value:
+      - {fileID: 8300000, guid: 89e0a429e3c0e5e4598db102ab010285, type: 3}
     - Key: 0
       Value:
       - {fileID: 8300000, guid: 8c43cd771fdb39540ad57c02c93ce4f7, type: 3}
