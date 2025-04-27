@@ -22,8 +22,7 @@ MonoBehaviour:
       data:
         orderName: Climb
         orderDescription: Make the robot climb on ladders
-        orderIcon: {fileID: 0}
-        orderImage: {fileID: 0}
+        orderIcon: {fileID: 21300000, guid: 178775c3db7fe7a4e98984e9dd0eba8f, type: 3}
         orderBehaviour: {fileID: 0}
         orderUseCount: 2147483647
         enterCountBeforeActivation: 0

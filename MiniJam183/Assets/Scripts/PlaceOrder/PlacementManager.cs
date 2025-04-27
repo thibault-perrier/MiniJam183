@@ -9,6 +9,7 @@ public class PlacementManager : MonoBehaviour
     public static PlacementManager Instance;
 
     private OrderBehaviour _orderBehaviour;
+    private Color _originalColor;
     private SpriteRenderer _orderImage;
     private bool _canBePlaced = true;
     private bool _wasOnOrderButton = false;
@@ -94,7 +95,7 @@ public class PlacementManager : MonoBehaviour
 
     private void UpdatePreview()
     {
-        _orderImage.color = _canBePlaced ? Color.white : Color.red;
+        _orderImage.color = _canBePlaced ? _originalColor : Color.red;
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         _orderBehaviour.transform.position = new Vector2(Mathf.FloorToInt(mousePos.x) + 0.5f, Mathf.FloorToInt(mousePos.y) + 0.5f);
     }
@@ -113,7 +114,10 @@ public class PlacementManager : MonoBehaviour
         if (_orderBehaviour != null)
         {
             _orderBehaviour.SetOrder(orderSO);
-            _orderImage = _orderBehaviour.GetComponentInChildren<SpriteRenderer>();
+            _orderImage = _orderBehaviour.orderSpriteRenderer;
+
+            _originalColor = _orderImage.color;
+            
             _wasOnOrderButton = true;
         }
     }

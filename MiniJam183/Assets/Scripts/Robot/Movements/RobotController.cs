@@ -96,6 +96,9 @@ public class RobotController : MonoBehaviour
             case RobotState.Climbing:
                 _rb.excludeLayers = 0;
                 break;
+            case RobotState.WaitingForSeconds:
+                _rb.linearDamping = 0;
+                break;
             default:
                 break;
         }
@@ -123,6 +126,7 @@ public class RobotController : MonoBehaviour
             case RobotState.WaitingForSeconds:
                 SetLinearVelocity(new Vector2(0, _rb.linearVelocity.y), true);
                 waitingPreviousState = _previousState;
+                _rb.linearDamping = 0.4f;
                 break;
             default:
                 break;
