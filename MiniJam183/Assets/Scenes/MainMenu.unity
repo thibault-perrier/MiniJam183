@@ -703,6 +703,46 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 126403530}
+    - target: {fileID: 3885895001003810319, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3885895001003810319, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3885895001003810319, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3885895001003810319, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3885895001003810319, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456004406083157787, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456004406083157787, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456004406083157787, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456004406083157787, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456004406083157787, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5717825418085221863, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
       propertyPath: _levelSelectorPanel
       value: 
@@ -714,6 +754,30 @@ PrefabInstance:
     - target: {fileID: 7202760462307466835, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
       propertyPath: m_Name
       value: Menu_Canva
+      objectReference: {fileID: 0}
+    - target: {fileID: 7202760462307466835, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701494131299209509, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701494131299209509, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701494131299209509, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701494131299209509, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701494131299209509, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7962037682262025202, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
       propertyPath: m_Pivot.x
@@ -793,6 +857,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7962037682262025202, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8510602342332362751, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8510602342332362751, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8510602342332362751, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8510602342332362751, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8510602342332362751, guid: 27407ff68c7356f4196c372a2d04b7a5, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -899,6 +983,10 @@ PrefabInstance:
     - target: {fileID: 8881822231933649638, guid: ea5da9b346f9c9041bda7e42e70f91c7, type: 3}
       propertyPath: m_Name
       value: Credits_Canva
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881822231933649638, guid: ea5da9b346f9c9041bda7e42e70f91c7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
