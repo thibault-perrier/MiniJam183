@@ -22,8 +22,7 @@ MonoBehaviour:
       data:
         orderName: Wait one second
         orderDescription: Stop the robot and wait for 1 seconde
-        orderIcon: {fileID: 0}
-        orderImage: {fileID: 0}
+        orderIcon: {fileID: 21300000, guid: 86a4b6cc58ede2749a2882fb6781d3b8, type: 3}
         orderBehaviour: {fileID: 0}
         orderUseCount: 2147483647
         enterCountBeforeActivation: 0
