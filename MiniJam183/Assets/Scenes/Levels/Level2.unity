@@ -14508,6 +14508,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1161152009322924840, guid: 6e490be4d8627fd4d95473553d938530, type: 3}
+      propertyPath: _victoryText
+      value: 
+      objectReference: {fileID: 116105292037920642}
+    - target: {fileID: 1161152009322924840, guid: 6e490be4d8627fd4d95473553d938530, type: 3}
       propertyPath: _blackScreenExit
       value: 
       objectReference: {fileID: 1219906427}
@@ -15051,6 +15055,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8459625886701b042b56714257867943, type: 3}
+--- !u!1 &116105292037920642 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5928161170872751356, guid: 8459625886701b042b56714257867943, type: 3}
+  m_PrefabInstance: {fileID: 116105292037920641}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2302797913915089553
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -62,8 +62,11 @@ namespace Orders.Base
                 {
                     continue;
                 }
-                
-                OnRobotActivateOrder(_currentRobotController);
+
+                if (order.CanUseOrder(_currentRobotController))
+                {
+                    OnRobotActivateOrder(_currentRobotController);
+                }
             }
         }
         
