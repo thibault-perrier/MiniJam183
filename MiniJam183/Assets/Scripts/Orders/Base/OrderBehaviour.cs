@@ -47,6 +47,11 @@ namespace Orders.Base
         {
             foreach (RobotController _currentRobotController in robotControllers.ToList())
             {
+                if (!_currentRobotController)
+                {
+                    continue;
+                }
+                
                 if (Vector2.Distance(_currentRobotController.transform.position, transform.position) > distanceThreshold)
                 {
                     continue;
