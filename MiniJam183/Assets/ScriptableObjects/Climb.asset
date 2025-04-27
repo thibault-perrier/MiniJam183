@@ -10,21 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fe547174be54daf950efa46af1cf653, type: 3}
-  m_Name: WaitForSecond
+  m_Name: Climb
   m_EditorClassIdentifier: 
   order:
-    rid: 4112378576854319182
+    rid: 4112378619519303756
   references:
     version: 2
     RefIds:
-    - rid: 4112378576854319182
-      type: {class: OrderWaitForSecond, ns: Orders, asm: Assembly-CSharp}
+    - rid: 4112378619519303756
+      type: {class: OrderClimb, ns: Orders, asm: Assembly-CSharp}
       data:
-        orderName: Wait one second
-        orderDescription: Stop the robot and wait for 1 seconde
+        orderName: Climb
+        orderDescription: Make the robot climb on ladders
         orderIcon: {fileID: 0}
         orderImage: {fileID: 0}
         orderBehaviour: {fileID: 0}
         orderUseCount: 2147483647
         enterCountBeforeActivation: 0
-        waitingTime: 1
