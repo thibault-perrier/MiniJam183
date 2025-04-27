@@ -21,7 +21,7 @@ public class PlacementManager : MonoBehaviour
         Instance = this;
     }
 
-    private void ReleaseCurrentOrder()
+    private void DiscardCurrentOrder()
     {
         if (_orderBehaviour != null)
         {
@@ -35,7 +35,7 @@ public class PlacementManager : MonoBehaviour
     private void Update()
     {
         if (!_wasOnOrderButton && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
-            ReleaseCurrentOrder();
+            DiscardCurrentOrder();
         else if (_wasOnOrderButton && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
             _wasOnOrderButton = false;
 
@@ -46,7 +46,7 @@ public class PlacementManager : MonoBehaviour
         {
             if (_orderBehaviour != null)
             {
-                ReleaseCurrentOrder();
+                DiscardCurrentOrder();
                 return;
             }
 
@@ -71,14 +71,16 @@ public class PlacementManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (_canBePlaced)
+            if (_canBePlaced && !_wasOnOrderButton)
             {
                 _orderBehaviour = null;
                 _orderImage = null;
                 _canBePlaced = false;
             }
+            else if (_wasOnOrderButton)
+                Debug.Log("Cannot place order on button.");
             else
-                Debug.Log("Cannot place order here, please try again.");
+                Debug.Log("Cannot place order on another, please try somewhere else.");
         }
     }
 
@@ -100,6 +102,11 @@ public class PlacementManager : MonoBehaviour
 
     public void StartPlacingOrder(GameObject prefab, OrderScriptableObject orderSO)
     {
+        if (_orderBehaviour != null)
+        {
+            DiscardCurrentOrder();
+        }
+
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         _orderBehaviour = Instantiate(prefab, new Vector2(Mathf.FloorToInt(mousePos.x) + 0.5f, Mathf.FloorToInt(mousePos.y) + 0.5f), Quaternion.identity).GetComponent<OrderBehaviour>();
 
