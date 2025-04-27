@@ -8,7 +8,7 @@ public class Spike : MonoBehaviour, ITileMapObject
     {
         if (_other.TryGetComponentInParent(out RobotController _robotController))
         {
-            Destroy(_robotController.gameObject);
+            _robotController.KillRobot();
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Audio;
 using Extensions;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -227,6 +228,7 @@ public class RobotController : MonoBehaviour
     {
         SetLinearVelocity(new Vector2(_rb.linearVelocity.x, 0), true);
         _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+        AudioPlayer.instance.PlaySfx(AudioEnum.RobotJumpSound);  
         _canJump = false;
     }
 
@@ -354,6 +356,13 @@ public class RobotController : MonoBehaviour
             IsGrounded = _newValue;
         }
         return _newValue;
+    }
+
+
+    public void KillRobot()
+    {
+        Destroy(gameObject);
+        AudioPlayer.instance.PlaySfx(AudioEnum.RobotDeathSound);
     }
     
     
