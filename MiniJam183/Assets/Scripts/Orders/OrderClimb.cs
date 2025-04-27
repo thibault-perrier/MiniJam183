@@ -13,5 +13,14 @@ namespace Orders
                 _robotController.transform.position = orderBehaviour.transform.position;
             }
         }
+        
+        public override bool CanUseOrder(RobotController _robotController)
+        {
+            if (base.CanUseOrder(_robotController) == false)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

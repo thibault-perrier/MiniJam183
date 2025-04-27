@@ -10,7 +10,6 @@ namespace Orders.Base
         public string orderName;
         public string orderDescription;
         public Sprite orderIcon; //when placed
-        public Sprite orderImage; //when in HUD
 
         [Header("Values")]
         [HideInInspector] public OrderBehaviour orderBehaviour;
@@ -25,6 +24,17 @@ namespace Orders.Base
             {
                 orderBehaviour.gameObject.SetActive(false);
             }
+            _robotController.transform.position = orderBehaviour.transform.position;
+        }
+
+        public virtual bool CanUseOrder(RobotController _robotController)
+        {
+            if (_robotController.CurrentRobotState is RobotController.RobotState.Off or RobotController.RobotState.WaitingForSeconds)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public object Clone()

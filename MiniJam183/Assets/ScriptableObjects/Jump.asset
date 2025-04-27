@@ -22,9 +22,8 @@ MonoBehaviour:
       data:
         orderName: Jump
         orderDescription: Make the Robot Jump
-        orderIcon: {fileID: 0}
-        orderImage: {fileID: 0}
+        orderIcon: {fileID: 21300000, guid: 8d00a80fc26f7284e977762fe81bb0e2, type: 3}
         orderBehaviour: {fileID: 0}
         orderUseCount: 2147483647
         enterCountBeforeActivation: 0
-        speedBoost: 1.5
+        speedBoost: 1.2

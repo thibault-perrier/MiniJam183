@@ -13,9 +13,26 @@ namespace Orders
             base.OnRobotEntered(_robotController);
             if (_robotController.TryJump())
             {
-                _robotController.GetComponent<Rigidbody2D>().AddForce(_robotController.transform.right * speedBoost, ForceMode2D.Impulse);
+                _robotController.SetLinearVelocity( 
+                    new Vector2(_robotController.transform.right.x * (_robotController.Speed + speedBoost), _robotController.Rb.linearVelocityY), 
+                    true, false);
                 orderBehaviour.StartCoroutine(WaitForGroundedToRemoveBoost(_robotController));
             }
+        }
+        
+        public override bool CanUseOrder(RobotController _robotController)
+        {
+            if (base.CanUseOrder(_robotController) == false)
+            {
+                return false;
+            }
+
+            if (!_robotController.IsGrounded)
+            {
+                return false;
+            }
+            
+            return true;
         }
 
         private IEnumerator WaitForGroundedToRemoveBoost(RobotController _robotController)

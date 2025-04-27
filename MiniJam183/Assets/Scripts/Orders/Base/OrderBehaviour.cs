@@ -4,11 +4,14 @@ using System.Linq;
 using Extensions;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Orders.Base
 {
     public class OrderBehaviour : MonoBehaviour
     {
+        public SpriteRenderer orderSpriteRenderer;
+        
         [HideInInspector] public Order order;
 
         [HideInInspector] public List<RobotController> robotControllers = new();
@@ -37,11 +40,11 @@ namespace Orders.Base
             order.orderBehaviour = this;
         }
 
-        // TODO: CALL WHEN ORDER PLACED IN GAME
         public void SetOrder(OrderScriptableObject _orderObject)
         {
             order = (Order)_orderObject.order.Clone();
             order.orderBehaviour = this;
+            orderSpriteRenderer.sprite = order.orderIcon;
         }
         
         private void Update()
@@ -62,8 +65,11 @@ namespace Orders.Base
                 {
                     continue;
                 }
-                
-                OnRobotActivateOrder(_currentRobotController);
+
+                if (order.CanUseOrder(_currentRobotController))
+                {
+                    OnRobotActivateOrder(_currentRobotController);
+                }
             }
         }
         
