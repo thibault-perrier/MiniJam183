@@ -26,11 +26,14 @@ public class LevelStartDoor : MonoBehaviour
     [ContextMenu("Spawn")]
     public void StartSpawning()
     {
+        _currentRobotBehindDoorText.text = $"{spawnCount}/{spawnCount}";
         spawningCoroutine = StartCoroutine(SpawningCoroutine());
     }
 
     public void StopSpawning()
     {
+        _currentRobotBehindDoorText.text = $"{spawnCount}/{spawnCount}";
+
         if (spawningCoroutine != null)
         {
             StopCoroutine(spawningCoroutine);
