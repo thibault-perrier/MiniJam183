@@ -12,13 +12,10 @@ public class AudioController : MonoBehaviour
     [Header("Audio Sources")]
     [SerializeField] private AudioMixer _audioMixerMaster;
 
-    [field:SerializeField] public AudioMixerGroup audioMixerSfx { get; private set; }
-
+    [field: SerializeField] public AudioMixerGroup audioMixerSfx { get; private set; }
 
     void Start()
     {
-        DontDestroyOnLoad(gameObject);
-
         _masterVolumeSlider.value = PlayerPrefs.GetFloat(PlayerParamsPreferences.PlayerPrefsMasterVol, .5f);
         _musicVolumeSlider.value = PlayerPrefs.GetFloat(PlayerParamsPreferences.PlayerPrefsMusicVol, .5f);
         _sfxVolumeSlider.value = PlayerPrefs.GetFloat(PlayerParamsPreferences.PlayerPrefsSFXVol, .5f);

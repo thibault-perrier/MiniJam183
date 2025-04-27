@@ -12,6 +12,7 @@ namespace Orders.Base
         [HideInInspector] public Order order;
 
         [HideInInspector] public List<RobotController> robotControllers = new();
+        [HideInInspector] public List<RobotController> alreadyActivatedRobots = new();
         
         public float distanceThreshold = 0.3f;
 
@@ -51,6 +52,11 @@ namespace Orders.Base
                 {
                     continue;
                 }
+
+                if (alreadyActivatedRobots.Contains(_currentRobotController))
+                {
+                    continue;
+                }
                 
                 if (Vector2.Distance(_currentRobotController.transform.position, transform.position) > distanceThreshold)
                 {
@@ -71,7 +77,7 @@ namespace Orders.Base
             
             order.OnRobotEntered(_robotController);
             
-            RemoveRobotController(_robotController);
+            alreadyActivatedRobots.Add(_robotController);
         }
 
         private void OnTriggerEnter2D(Collider2D _other)
@@ -81,7 +87,13 @@ namespace Orders.Base
                 return;
             }
             
+            if (robotControllers.Contains(_robotController))
+            {
+                return;
+            }
+            
             robotControllers.Add(_robotController);
+            
         }
 
         private void OnTriggerExit2D(Collider2D _other)
@@ -99,6 +111,10 @@ namespace Orders.Base
             if (robotControllers.Contains(_robotController))
             {
                 robotControllers.Remove(_robotController);
+            }
+            if (alreadyActivatedRobots.Contains(_robotController))
+            {
+                alreadyActivatedRobots.Remove(_robotController);
             }
         }
     }

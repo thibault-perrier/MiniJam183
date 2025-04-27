@@ -3,27 +3,25 @@ using Audio;
 using AYellowpaper.SerializedCollections;
 using Extensions;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.Timeline;
 
 public class AudioPlayer : MonoBehaviour
 {
     public static AudioPlayer instance { get; private set; }
     [HideInInspector] public AudioController audioController;
-    
+
     public SerializedDictionary<AudioEnum, List<AudioClip>> audioClips = new();
-    
+
     private void Awake()
     {
         if (instance != null)
         {
             return;
         }
-        
+
         instance = this;
         audioController = GetComponent<AudioController>();
     }
-    
+
     public void PlaySfx(AudioEnum _audioEnum)
     {
         AudioClip _clip = audioClips[_audioEnum].PickRandom();
