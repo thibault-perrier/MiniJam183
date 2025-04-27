@@ -64,10 +64,15 @@ public class GameManager : MonoBehaviour
         aliveRobots.Clear();
     }
 
-    public void QuitLevel()
+    public void WinAndQuit()
     {
         _victoryText.SetActive(true);
         StartCoroutine(ExitAfterTime());
+    }
+
+    public void QuitGame()
+    {
+        LoadMainMenu();
     }
 
     private IEnumerator ExitAfterTime()

@@ -54,7 +54,7 @@ public class VictoryDetection : MonoBehaviour
             {
                 OnConditionAchieved?.Invoke();
                 Debug.Log("Victory condition achieved!");
-                GameManager.GMInstance.QuitLevel();
+                GameManager.GMInstance.WinAndQuit();
             }
         }
     }

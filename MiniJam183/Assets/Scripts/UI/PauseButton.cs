@@ -14,4 +14,9 @@ public class PauseButton : MonoBehaviour
     {
         Time.timeScale = _oldTimeScale;
     }
+
+    public void QuitGame()
+    {
+        GameManager.GMInstance.QuitGame();
+    }
 }
