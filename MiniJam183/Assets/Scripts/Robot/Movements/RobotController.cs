@@ -91,6 +91,7 @@ public class RobotController : MonoBehaviour
         {
             case RobotState.Off:
                 gameObject.tag = "Untagged";
+                _rb.linearDamping = 0f;
                 break;
             case RobotState.Walking:
                 break;
@@ -109,6 +110,8 @@ public class RobotController : MonoBehaviour
             case RobotState.Off:
                 _animator.Play("TurnedOff");
                 gameObject.tag = "Jumpable";
+                SetLinearVelocity(Vector2.zero, true);
+                _rb.linearDamping = 0.4f;
                 break;
             case RobotState.Walking:
                 break;
@@ -280,7 +283,7 @@ public class RobotController : MonoBehaviour
     {
         //RaycastHit2D _hit = Physics2D.Raycast(transform.position + transform.right* 0.55f , transform.right, 0.05f, _collisionMask);
         var _hits = GetObstacles();
-
+        
         RaycastHit2D _hit = _hits.FirstOrDefault(_checkHit => (!_checkHit.collider.attachedRigidbody || _checkHit.collider.attachedRigidbody != _rb));
         
         if (_hit.collider)
@@ -302,7 +305,7 @@ public class RobotController : MonoBehaviour
 
     private RaycastHit2D[] GetObstacles()
     {
-        float _size = 0.9f;
+        float _size = 0.8f;
         RaycastHit2D[] _hits = Physics2D.BoxCastAll(transform.position + transform.right * (1 - _size), Vector2.one * _size,
             0f, transform.right, 0.05f, _collisionMask);
         DebugRaycast(transform.position + transform.right * 0.55f, transform.right, 0.05f, Color.blue);
