@@ -80,6 +80,12 @@ public class RobotController : MonoBehaviour
     {
         RobotState _previousState = CurrentRobotState;
         CurrentRobotState = _nextState;
+        
+        if (_previousState == _nextState)
+        {
+            return;
+        }
+        
         switch (_previousState)
         {
             case RobotState.Idle:
@@ -305,6 +311,7 @@ public class RobotController : MonoBehaviour
         }
         _faceRight = !_faceRight;
         transform.rotation = Quaternion.Euler(0, _faceRight ? 0 : 180, 0);
+        Debug.Log("switching");
        // _rb.linearVelocity = transform.right * _speed;
     }
 
