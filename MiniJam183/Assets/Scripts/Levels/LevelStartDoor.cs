@@ -1,9 +1,12 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class LevelStartDoor : MonoBehaviour
 {
+    [SerializeField] private TMP_Text _currentRobotBehindDoorText;
+
     public int spawnCount = 3;
     public float spawnDelay = 1f;
     public bool faceRightOnSpawn = true;
@@ -16,6 +19,8 @@ public class LevelStartDoor : MonoBehaviour
     {
         GameManager.GMInstance.onStartGame += StartSpawning;
         GameManager.GMInstance.onEndGame += StopSpawning;
+
+        _currentRobotBehindDoorText.text = $"{spawnCount}/{spawnCount}";
     }
 
     [ContextMenu("Spawn")]
@@ -45,6 +50,7 @@ public class LevelStartDoor : MonoBehaviour
                 yield return null;
             }
             SpawnRobot();
+            _currentRobotBehindDoorText.text = $"{spawnCount - (_i + 1)}/{spawnCount}";
             yield return new WaitForSeconds(spawnDelay);
         }
     }

@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +11,9 @@ public class GameManager : MonoBehaviour
 
     public event Action onStartGame;
     public event Action onEndGame;
+
+    [SerializeField] private GameObject _victoryText;
+    [SerializeField] private AnimationClip _fadeOutClip;
 
     [SerializeField] private float _timeBeforeFadeOut = 1.0f;
     [SerializeField] private Animator _blackScreenExit;
@@ -64,12 +66,21 @@ public class GameManager : MonoBehaviour
 
     public void QuitLevel()
     {
+        _victoryText.SetActive(true);
         StartCoroutine(ExitAfterTime());
     }
 
     private IEnumerator ExitAfterTime()
     {
-        yield return new WaitForSeconds(_timeBeforeFadeOut);
+        yield return new WaitForSecondsRealtime(_timeBeforeFadeOut);
         _blackScreenExit.SetTrigger("FadeOut");
+        yield return new WaitForSecondsRealtime(_fadeOutClip.length);
+        LoadMainMenu();
+    }
+
+    public void LoadMainMenu()
+    {
+        MainMenu.HasToLoadLevelSelector = true;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 }
