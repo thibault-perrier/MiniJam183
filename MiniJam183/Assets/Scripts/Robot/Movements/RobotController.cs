@@ -120,7 +120,7 @@ public class RobotController : MonoBehaviour
             case RobotState.Climbing:
                 _rb.excludeLayers = _collisionMask;
                 _wasNotGroundedThisClimb = false;
-                if (!Physics2D.OverlapBox(transform.position + Vector3.up, Vector2.one, 0, _climbableMask))
+                if (!Physics2D.OverlapBox(transform.position + Vector3.up * 1.5f, Vector2.one, 0, _climbableMask))
                 {
                     _isClimbingUp = false;
                 }
