@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,9 @@ public class GameManager : MonoBehaviour
 
     public event Action onStartGame;
     public event Action onEndGame;
+
+    [SerializeField] private float _timeBeforeFadeOut = 1.0f;
+    [SerializeField] private Animator _blackScreenExit;
 
     public List<RobotController> aliveRobots = new();
 
@@ -24,6 +28,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        _blackScreenExit.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -40,8 +46,30 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void EndGame()
     {
+        DestroyAllRobots();
         IsInGameMode = false;
         aliveRobots.Clear();
         onEndGame?.Invoke();
+    }
+
+    public void DestroyAllRobots()
+    {
+        foreach (var robot in aliveRobots)
+        {
+            if (robot == null) continue;
+            Destroy(robot.gameObject);
+        }
+        aliveRobots.Clear();
+    }
+
+    public void QuitLevel()
+    {
+        StartCoroutine(ExitAfterTime());
+    }
+
+    private IEnumerator ExitAfterTime()
+    {
+        yield return new WaitForSeconds(_timeBeforeFadeOut);
+        _blackScreenExit.SetTrigger("FadeOut");
     }
 }

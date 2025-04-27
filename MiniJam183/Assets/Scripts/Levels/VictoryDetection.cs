@@ -1,10 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class VictoryDetection : MonoBehaviour
 {
-    public UnityEvent OnConditionAchieved;
     public int RequiredRobots = 1;
+    public UnityEvent OnConditionAchieved;
 
     private int _currentRobots = 0;
 
