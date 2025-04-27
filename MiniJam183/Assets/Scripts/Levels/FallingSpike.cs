@@ -8,14 +8,14 @@ public class FallingSpike : MonoBehaviour
 
     void Update()
     {
-        transform.position += Vector3.down * Time.deltaTime * _spikeSpeed;
+        transform.position += Vector3.down * (Time.deltaTime * _spikeSpeed);
     }
 
     public void OnTriggerEnter2D(Collider2D _other)
     {
         if (_other.TryGetComponentInParent(out RobotController _robotController))
         {
-            Debug.LogError("Needs to call the kill robot method");
+            _robotController.KillRobot();
         }
 
         Debug.Log("Destroy Spike");
