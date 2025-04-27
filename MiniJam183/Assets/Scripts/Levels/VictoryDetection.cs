@@ -1,4 +1,5 @@
 using System.Collections;
+using Extensions;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,7 +12,7 @@ public class VictoryDetection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Robot"))
+        if (other.gameObject.CompareFirstTagInParent("Robot"))
         {
             _currentRobots++;
 
