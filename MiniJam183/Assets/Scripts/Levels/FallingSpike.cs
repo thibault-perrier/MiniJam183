@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FallingSpike : MonoBehaviour
 {
+    [SerializeField] private GameObject _destructionParticles;
     [SerializeField] private float _spikeSpeed = 5.0f;
 
     void Update()
@@ -23,7 +24,7 @@ public class FallingSpike : MonoBehaviour
             return;
         }
 
-        Debug.Log("Destroy Spike");
+        Instantiate(_destructionParticles, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }

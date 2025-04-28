@@ -7,6 +7,8 @@ using UnityEngine.Serialization;
 
 public class RobotController : MonoBehaviour
 {
+    [SerializeField] private GameObject _destructionParticles;
+    
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private LayerMask _collisionMask;
     [SerializeField] private LayerMask _climbingCollisionMask;
@@ -367,8 +369,9 @@ public class RobotController : MonoBehaviour
 
     public void KillRobot()
     {
-        Destroy(gameObject);
         AudioPlayer.instance.PlaySfx(AudioEnum.RobotDeathSound);
+        Instantiate(_destructionParticles, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
     
     

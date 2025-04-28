@@ -243,4 +243,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5d48a088dcb40c488f15b4ab046dea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _destructionParticles: {fileID: 3241934791601636740, guid: afc75716c3d74c14fbd775b7b4ce78e0, type: 3}
   _spikeSpeed: 7

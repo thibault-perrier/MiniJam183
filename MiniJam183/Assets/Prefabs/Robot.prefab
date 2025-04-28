@@ -217,6 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60379e03de2427e46b18be6ad7a76555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _destructionParticles: {fileID: 5082390348284415190, guid: fd81cc0f7f5840c42921b4e3c21e4611, type: 3}
   _spriteRenderer: {fileID: 4375942044855745396}
   _collisionMask:
     serializedVersion: 2
