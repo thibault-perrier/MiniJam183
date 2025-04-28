@@ -192,7 +192,7 @@ public class RobotController : MonoBehaviour
         var _obstacleResult = CheckObstacle();
         if (_obstacleResult)
         {
-            if (_obstacleResult.collider.gameObject.CompareFirstTagInParent("Jumpable") && HasNoObstacleOnHead() && TryJump(_jumpForce - 0.5f))
+            if (_obstacleResult.collider.gameObject.CompareFirstTagInParent("Jumpable") && HasNoObstacleOnHead() && TryJump(_jumpForce - 0.75f))
             {
                 
             }
