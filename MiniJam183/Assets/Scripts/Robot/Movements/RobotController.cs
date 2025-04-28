@@ -320,7 +320,6 @@ public class RobotController : MonoBehaviour
         float _size = 0.8f;
         RaycastHit2D[] _hits = Physics2D.BoxCastAll(transform.position + transform.right * (1 - _size), Vector2.one * _size,
             0f, transform.right, 0.05f, _collisionMask);
-        DebugRaycast(transform.position + transform.right * 0.55f, transform.right, 0.05f, Color.blue);
         return _hits;
     }
 
@@ -340,7 +339,6 @@ public class RobotController : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.up, transform.right, 1f,
             _collisionMask);
-        DebugRaycast(transform.position + transform.up , transform.right, 1f, Color.red);
 
         if (hit.collider)
             return false;
@@ -353,7 +351,6 @@ public class RobotController : MonoBehaviour
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position + -transform.up  * 0.5f, Vector2.down, 0.05f,
             _collisionMask & ~_excludeLayer);
         
-        DebugRaycast(transform.position + -transform.up  * 0.5f, Vector2.down, 0.05f, Color.red);
         
         RaycastHit2D hit = hits
         .FirstOrDefault(hit => (!hit.collider.attachedRigidbody || hit.collider.attachedRigidbody != _rb));
