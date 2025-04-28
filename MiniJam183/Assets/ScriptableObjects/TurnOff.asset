@@ -21,8 +21,8 @@ MonoBehaviour:
       type: {class: OrderTurnOff, ns: , asm: Assembly-CSharp}
       data:
         orderName: Turn off
-        orderDescription: Deactivate robot movement, it can be used as a step this
-          way
+        orderDescription: Permanently deactivate the robot, it can then be used as
+          a step.
         orderIcon: {fileID: 21300000, guid: 2054c9af1d971464baa16b7b48acd76e, type: 3}
         orderBehaviour: {fileID: 0}
         orderUseCount: 2147483647
