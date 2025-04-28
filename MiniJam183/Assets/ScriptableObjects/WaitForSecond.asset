@@ -21,7 +21,7 @@ MonoBehaviour:
       type: {class: OrderWaitForSecond, ns: Orders, asm: Assembly-CSharp}
       data:
         orderName: Wait one second
-        orderDescription: Stop the robot and wait for 1 seconde
+        orderDescription: Stop the robot for 1 second.
         orderIcon: {fileID: 21300000, guid: 86a4b6cc58ede2749a2882fb6781d3b8, type: 3}
         orderBehaviour: {fileID: 0}
         orderUseCount: 2147483647

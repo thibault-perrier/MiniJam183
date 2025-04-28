@@ -21,7 +21,8 @@ MonoBehaviour:
       type: {class: OrderClimb, ns: Orders, asm: Assembly-CSharp}
       data:
         orderName: Climb
-        orderDescription: Make the robot climb on ladders
+        orderDescription: Make the robot go up the ladder if placed at the bottom,
+          or down if placed at the top.
         orderIcon: {fileID: 21300000, guid: 178775c3db7fe7a4e98984e9dd0eba8f, type: 3}
         orderBehaviour: {fileID: 0}
         orderUseCount: 2147483647

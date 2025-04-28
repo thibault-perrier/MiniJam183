@@ -21,7 +21,7 @@ MonoBehaviour:
       type: {class: OrderJump, ns: Orders, asm: Assembly-CSharp}
       data:
         orderName: Jump
-        orderDescription: Make the Robot Jump
+        orderDescription: Make the Robot Jump.
         orderIcon: {fileID: 21300000, guid: 8d00a80fc26f7284e977762fe81bb0e2, type: 3}
         orderBehaviour: {fileID: 0}
         orderUseCount: 2147483647

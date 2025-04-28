@@ -21,7 +21,7 @@ MonoBehaviour:
       type: {class: OrderSwitchDirection, ns: Orders, asm: Assembly-CSharp}
       data:
         orderName: Switch direction
-        orderDescription: Make the robot go the other way
+        orderDescription: Make the robot switch direction.
         orderIcon: {fileID: 21300000, guid: 3ff4c037649d32f4bb6f56dd0c6e162a, type: 3}
         orderBehaviour: {fileID: 0}
         orderUseCount: 2147483647
