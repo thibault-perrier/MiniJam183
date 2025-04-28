@@ -1,5 +1,5 @@
 using Extensions;
-using Levels;
+using Orders.Base;
 using UnityEngine;
 
 public class FallingSpike : MonoBehaviour
@@ -16,6 +16,11 @@ public class FallingSpike : MonoBehaviour
         if (_other.TryGetComponentInParent(out RobotController _robotController))
         {
             _robotController.KillRobot();
+        }
+
+        if (_other.GetComponentInParent<OrderBehaviour>() != null)
+        {
+            return;
         }
 
         Debug.Log("Destroy Spike");
